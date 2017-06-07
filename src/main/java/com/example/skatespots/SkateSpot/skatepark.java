@@ -1,8 +1,15 @@
+/*
 package com.example.skatespots.SkateSpot;
 
+import com.example.skatespots.users.userBasic;
+
+import java.util.Date;
+
+*/
 /**
  * Created by chris on 6/6/17.
- */
+ *//*
+
 public class skatepark extends skateSpot {
 
     private boolean helmet;
@@ -10,6 +17,7 @@ public class skatepark extends skateSpot {
     private double cost;
     private boolean lights;
     private String hours;
+
 
 
     public boolean getHelmet(){
@@ -52,3 +60,4 @@ public class skatepark extends skateSpot {
 }
 
 
+*/

@@ -12,12 +12,25 @@ public class skateSpot {
     private String name;
     private String description;
     private String address;
-    private String notes;
-    private Date dateSubmitted;
-    private userBasic userSubmitted;
+    private boolean security;
+    private int spotId;
+    private static int nextId =1;
 
     //pictures;
 
+
+    public skateSpot(){
+        spotId = nextId;
+        nextId++;
+    }
+
+    public skateSpot(String name, String description, String address, boolean security) {
+        this();
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.security = security;
+    }
 
     public String getName() {
         return name;
@@ -43,27 +56,18 @@ public class skateSpot {
     }
 
 
-    public String getNotes(){
-        return notes;
+    public boolean isSecurity() {
+        return security;
     }
-    public void setNotes(String aNote){
-        notes = aNote;
-    }
-
-    public Date getDateSubmitted(){
-        return dateSubmitted;
-    }
-    public void setDateSubmitted(Date aDate){
-        dateSubmitted = aDate;
+    public void setSecurity(boolean security) {
+        this.security = security;
     }
 
-    public userBasic getUserSubmitted(){
-        return userSubmitted;
-    }
-    public void setUserSubmitted(userBasic aUser){
-        userSubmitted = aUser;
+    public int getSpotId() {
+        return spotId;
     }
 
-
-
+    public void setSpotId(int spotId) {
+        this.spotId = spotId;
+    }
 }

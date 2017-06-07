@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class userBasic {
     private String username;
+
     private ArrayList<skateSpot> spotsSubmitted;
 
     public String getUsername(){

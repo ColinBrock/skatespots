@@ -3,13 +3,17 @@
 <head th:fragment="head">
     <meta charset="UTF-8"/>
     <title th:text="${title}">titLE</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
 <div th:fragment="navigation" id="topnav">
-    <a href="/">Home</a>
-    <a href="/spotlist">Spots</a>
-    <a href="/addspot">Add Spot</a>
+    <a href="/">Home</a> -
+    <a href="/spotlist">Spots</a> -
+    <a href="/addspot">Add Spot</a> -
     <a href="/addpark">Add Park</a>
 
 </div>
