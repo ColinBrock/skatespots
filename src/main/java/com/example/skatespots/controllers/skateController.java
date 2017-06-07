@@ -13,28 +13,47 @@ import java.util.HashMap;
  * Created by chris on 5/23/17.
  */
 @Controller
-@RequestMapping("spots")
+@RequestMapping("")
 public class skateController {
 
     static ArrayList<HashMap<String, String>> spots = new ArrayList();
 
     @RequestMapping(value = "")
     public String index(Model model) {
-        model.addAttribute("title", "My Skatespots");
         return "spots/index";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String displayAddSpotForm(Model model) {
-        model.addAttribute("title", "Add spot");
-        return "spots/add";
+    @RequestMapping(value = "spotlist", method = RequestMethod.GET)
+    public String spotsLists(Model model) {
+        return "spots/spotlist";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value = "addspot", method = RequestMethod.GET)
+    public String displayAddSpotForm(Model model) {
+        return "spots/addspot";
+    }
+
+    @RequestMapping(value = "addspot", method = RequestMethod.POST)
     public String processAddSpotForm(HttpServletRequest request) {
         String spotName = request.getParameter("spotName");
         String spotDescription = request.getParameter("spotDescription");
-        return  "spots/add";
+        String spotAddress = request.getParameter("spotAddres");
+        String spotSecurity = request.getParameter("security");
+        return  "spots/addspot";
+    }
+
+    @RequestMapping(value = "addpark", method = RequestMethod.GET)
+    public String displayAddParkForm(Model model) {
+        return "spots/addpark";
+    }
+
+    @RequestMapping(value = "addpark", method = RequestMethod.POST)
+    public String processAddParkForm(HttpServletRequest request) {
+        String spotName = request.getParameter("spotName");
+        String spotDescription = request.getParameter("spotDescription");
+        String spotAddress = request.getParameter("spotAddress");
+
+        return  "spots/addpark";
     }
 
 }

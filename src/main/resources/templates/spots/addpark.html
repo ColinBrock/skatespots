@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+    <div th:replace="fragments :: navigation"></div>
+    <h1>Add a Park</h1>
+
+    <form method="post">
+        <table>
+            <tr>
+                <td>Name <input type="text" name="spotName"/></td>
+            </tr>
+            <tr>
+                <td>Description<textarea rows="2" cols="30" type="text" name="spotDescription"/></td>
+            </tr>
+            <tr>
+                <td>Address<input type="text" name="spotAddress"/></td>
+            </tr>
+            <tr>
+                <td>Hours<input type="text" name="hours"/></td>
+            </tr>
+            <tr>
+                <td>Cost<input type="radio" name="isCost" value="yes"/>Yes<input type="radio" name="isCost" value="no"/>No</td>
+            </tr>
+            <tr>
+                <td>Helmet Required<input type="radio" name="helmet" value="yes"/>Yes<input type="radio" name="helmet" value="no"/>No</td>
+            </tr>
+            <tr>
+                <td>Lights<input type="radio" name="lights" value="yes"/>Yes<input type="radio" name="lights" value="no"/>No</td>
+            </tr>
+            <tr>
+                <td><input type="submit"/></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
