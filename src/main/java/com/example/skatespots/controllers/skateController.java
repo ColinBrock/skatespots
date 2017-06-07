@@ -29,6 +29,13 @@ public class skateController {
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
+        model.addAttribute("spots", SkateSpotData.getAll());
+        return "spots/spotlist";
+    }
+
+    @RequestMapping(value = "parklist", method = RequestMethod.GET)
+    public String parksLists(Model model) {
+        model.addAttribute("spots", SkateSpotData.getAll());
         return "spots/spotlist";
     }
 
@@ -42,7 +49,7 @@ public class skateController {
     @RequestMapping(value = "addspot", method = RequestMethod.POST)
     public String processAddSpotForm(@ModelAttribute skateSpot newSpot) {
         SkateSpotData.add(newSpot);
-        return  "spots/addspot";
+        return  "redirect:";
     }
 
 

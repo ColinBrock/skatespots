@@ -6,6 +6,23 @@
     <div th:replace="fragments :: navigation"></div>
     <h1>Spots</h1>
 
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Security</th>
+        </tr>
+
+        <tr th:each="spot : ${spots}">
+            <td th:text="${spot.name}"></td>
+            <td th:text="${spot.description}"></td>
+            <td th:text="${spot.address}"></td>
+            <td th:text="${spot.security}"></td>
+        </tr>
+
+    </table>
+
 
 </body>
 </html>

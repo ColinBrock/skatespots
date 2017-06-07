@@ -12,7 +12,7 @@ public class skateSpot {
     private String name;
     private String description;
     private String address;
-    private boolean security;
+    private String security;
     private int spotId;
     private static int nextId =1;
 
@@ -24,7 +24,7 @@ public class skateSpot {
         nextId++;
     }
 
-    public skateSpot(String name, String description, String address, boolean security) {
+    public skateSpot(String name, String description, String address, String security) {
         this();
         this.name = name;
         this.description = description;
@@ -56,17 +56,16 @@ public class skateSpot {
     }
 
 
-    public boolean isSecurity() {
+    public String getSecurity() {
         return security;
     }
-    public void setSecurity(boolean security) {
+    public void setSecurity(String security) {
         this.security = security;
     }
 
     public int getSpotId() {
         return spotId;
     }
-
     public void setSpotId(int spotId) {
         this.spotId = spotId;
     }
