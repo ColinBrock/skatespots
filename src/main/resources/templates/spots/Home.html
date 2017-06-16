@@ -5,7 +5,7 @@
     <div th:replace="fragments :: navigation"></div>
     <h1>Stl Skatespots</h1>
 
-
+<div>
 <h3>Login</h3>
     <form method="post">
         <table>
@@ -15,27 +15,19 @@
         <tr>
             <td>Password<input type="password" name="password"/></td>
         </tr>
-        </table>
-    </form>
-
-<h3>Signup</h3>
-    <form method="post">
-        <table>
-            <tr>
-                <td>Username <input type="text" name="username"/></td>
-            </tr>
-            <tr>
-                <td>Password<input type="password" name="password"/></td>
-            </tr>
-            <tr>
-                <td>Verify Password<input type="password" name="verifypassword"/></td>
-            </tr>
             <tr>
                 <td><input type="submit"/></td>
             </tr>
         </table>
-
     </form>
+</div>
+
+<br/>
+
+<div>
+    <a href="/signup">Sign Up</a>
+</div>
+
 </body>
 </html>
 

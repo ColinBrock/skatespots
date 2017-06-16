@@ -1,6 +1,6 @@
 package com.example.skatespots.models;
 
-import com.example.skatespots.SkateSpot.skateSpot;
+import com.example.skatespots.models.SkateSpot.SkateSpot;
 
 import java.util.ArrayList;
 
@@ -9,28 +9,28 @@ import java.util.ArrayList;
  */
 public class SkateSpotData {
 
-    static ArrayList<skateSpot> spots = new ArrayList<>();
+    static ArrayList<SkateSpot> spots = new ArrayList<>();
 
-    public static ArrayList<skateSpot> getAll(){
+    public static ArrayList<SkateSpot> getAll(){
         return spots;
     }
 
-    public static void add(skateSpot newSpot) {
+    public static void add(SkateSpot newSpot) {
         spots.add(newSpot);
     }
 
 
     public static void remove(int id){
-        skateSpot spotToRemove = getById(id);
+        SkateSpot spotToRemove = getById(id);
         spots.remove(spotToRemove);
     }
 
 
-    public static skateSpot getById(int id){
+    public static SkateSpot getById(int id){
 
-        skateSpot theSpot = null;
+        SkateSpot theSpot = null;
 
-        for (skateSpot candidateSpot : spots) {
+        for (SkateSpot candidateSpot : spots) {
             if (candidateSpot.getSpotId() == id){
                 theSpot = candidateSpot;
             }

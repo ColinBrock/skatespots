@@ -1,13 +1,9 @@
-package com.example.skatespots.SkateSpot;
-
-import com.example.skatespots.users.userBasic;
-
-import java.util.Date;
+package com.example.skatespots.models.SkateSpot;
 
 /**
  * Created by chris on 5/24/17.
  */
-public class skateSpot {
+public class SkateSpot {
 
     private String name;
     private String description;
@@ -19,12 +15,12 @@ public class skateSpot {
     //pictures;
 
 
-    public skateSpot(){
+    public SkateSpot(){
         spotId = nextId;
         nextId++;
     }
 
-    public skateSpot(String name, String description, String address, String security) {
+    public SkateSpot(String name, String description, String address, String security) {
         this();
         this.name = name;
         this.description = description;

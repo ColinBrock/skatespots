@@ -4,21 +4,21 @@
 
 <body>
     <div th:replace="fragments :: navigation"></div>
-    <h1>Spots</h1>
+    <h1 th:text="${title}"></h1>
 
     <table>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Address</th>
-            <th>Security</th>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Address</td>
+            <td>More info</td>
         </tr>
 
         <tr th:each="spot : ${spots}">
             <td th:text="${spot.name}"></td>
             <td th:text="${spot.description}"></td>
             <td th:text="${spot.address}"></td>
-            <td th:text="${spot.security}"></td>
+            <td><a th:href="@{'spot/' + ${spot.spotId}}" th:text="${spot.spotId}"></a></td>
         </tr>
 
     </table>

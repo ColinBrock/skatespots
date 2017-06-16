@@ -1,6 +1,6 @@
-package com.example.skatespots.users;
+package com.example.skatespots.models.users;
 
-import com.example.skatespots.SkateSpot.skateSpot;
+import com.example.skatespots.models.SkateSpot.SkateSpot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,7 @@ public class userFull {
     private String password;
     private String email;
     private Date dateSubmitted;
-    private ArrayList<skateSpot> spotsSubmitted;
+    private ArrayList<SkateSpot> spotsSubmitted;
 
     public String getUsername(){
         return username;
@@ -43,10 +43,10 @@ public class userFull {
         dateSubmitted = aDate;
     }
 
-    public ArrayList<skateSpot> getSpotsSubmitted(){
+    public ArrayList<SkateSpot> getSpotsSubmitted(){
         return spotsSubmitted;
     }
-    public void setSpotsSubmitted(skateSpot aSpot){
+    public void setSpotsSubmitted(SkateSpot aSpot){
         spotsSubmitted.add(aSpot);
     }
 }

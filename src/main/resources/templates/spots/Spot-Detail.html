@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+<div th:replace="fragments :: navigation"></div>
+
+
+<table th:object="${aSpot}">
+    <tr>
+        <th> Name </th>
+        <td th:text="*{name}"></td>
+    </tr>
+    <tr>
+        <th> Description </th>
+        <td th:text="*{description}"></td>
+    </tr>
+
+    <tr>
+        <th> Address </th>
+        <td th:text="*{address}"></td>
+    </tr>
+    <tr>
+        <th>Security</th>
+        <td th:text="*{security}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

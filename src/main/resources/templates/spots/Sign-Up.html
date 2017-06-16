@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<div th:replace="fragments :: navigation"></div>
+
+<div>
+    <h3>Signup</h3>
+    <form method="post">
+        <table>
+            <tr>
+                <td>Username <input type="text" name="username" th:field="*{username}"/></td>
+                <span th:errors="*{username}"></span>
+
+            </tr>
+            <tr>
+                <td>Password<input type="password" name="password" th:field="*{password}"/></td>
+                <span th:errors="*{password}"></span>
+                <span th:text="${noMatch}"></span>
+
+
+            </tr>
+            <tr>
+                <td>Verify Password<input type="password" name="verify"/></td>
+                <span th:errors="*{password}"></span>
+            </tr>
+            <tr>
+                <td><input type="submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>
+
+
+</td>
