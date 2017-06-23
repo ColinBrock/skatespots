@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:fragment="head">
+
+    <!-- Bootstrap stylesheets and script -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <meta charset="UTF-8"/>
     <title>Stl Skate Spots</title>
 </head>
 <body>
 
-<div th:fragment="navigation" id="topnav">
-    <a href="/">Home</a> -
-    <a href="/spotlist">Spots</a> -
-    <a href="/parklist">Parks</a>-
-    <a href="/addspot">Add Spot</a> -
-    <a href="/addpark">Add Park</a> -
-    <a href="/signup">Sign Up</a>
-</div>
+<nav th:fragment="navigation" id="topnav" class="navbar navbar-default">
+    <div class="container-fluid">
+
+        <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/spotlist">Spots</a></li>
+            <li><a href="/parklist">Parks</a></li>
+            <li><a href="/addspot">Add Spots</a></li>
+            <li><a href="/addpark">Add Parks</a></li>
+            <li><a href="/signup">Signup</a></li>
+        </ul>
+    </div>
+</nav>
+
+
 
 </body>
 </html>

@@ -1,3 +1,4 @@
+/*
 package com.example.skatespots.models.users;
 
 import com.example.skatespots.models.SkateSpot.SkateSpot;
@@ -5,9 +6,11 @@ import com.example.skatespots.models.SkateSpot.SkateSpot;
 import java.util.ArrayList;
 import java.util.Date;
 
+*/
 /**
  * Created by chris on 6/6/17.
- */
+ *//*
+
 public class userFull {
     private String username;
     private String password;
@@ -50,3 +53,4 @@ public class userFull {
         spotsSubmitted.add(aSpot);
     }
 }
+*/

@@ -24,34 +24,32 @@ public class UserController {
             return "spots/Home";
         }
 
-
         @RequestMapping(value ="signup", method = RequestMethod.GET)
-        public String add(Model model){
+        public String signUpForm(Model model){
             model.addAttribute(new userBasic());
             return "spots/Sign-Up";
         }
 
         @RequestMapping(value = "signup", method = RequestMethod.POST)
-        public String add(Model model, @ModelAttribute @Valid userBasic user, Errors errors, String verify) {
-            model.addAttribute("user", user);
+        public String processSignUpForm(Model model, @ModelAttribute @Valid userBasic userBasic, Errors errors, String verify) {
+            model.addAttribute("userBasic", userBasic);
 
             if (errors.hasErrors()) {
-                model.addAttribute("user", user);
+                model.addAttribute("userBasic", userBasic);
                 return "spots/Sign-Up";
             }
 
-            if (user.getPassword().equals(verify)) {
-                model.addAttribute("user", user);
+            if (userBasic.getPassword().equals(verify)) {
+                model.addAttribute("userBasic", userBasic);
                 return "spots/Logged-In";
+
             } else {
-                model.addAttribute(user);
+                model.addAttribute("userBasic", userBasic);
                 model.addAttribute("noMatch", "These passwords do not match");
-                user.setPassword("");
+                userBasic.setPassword("");
                 return "spots/Sign-Up";
             }
 
         }
-
-
-    }
+}
 

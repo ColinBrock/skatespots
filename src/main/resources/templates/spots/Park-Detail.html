@@ -7,7 +7,7 @@
 <div th:replace="fragments :: navigation"></div>
 
 
-<table th:object="${aSpot}">
+<table th:object="${aPark}">
     <tr>
         <th> Name </th>
         <td th:text="*{name}"></td>
@@ -22,8 +22,20 @@
         <td th:text="*{address}"></td>
     </tr>
     <tr>
-        <th>Security</th>
-        <td th:text="*{security}"></td>
+        <th>Helmet</th>
+        <td th:text="*{helmet}"></td>
+    </tr>
+    <tr>
+        <th>Cost</th>
+        <td th:text="*{cost}"></td>
+    </tr>
+    <tr>
+        <th>Lights</th>
+        <td th:text="*{lights}"></td>
+    </tr>
+    <tr>
+        <th>Indoors</th>
+        <td th:text="*{indoors}"></td>
     </tr>
 </table>
 

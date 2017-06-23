@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+    <nav th:replace="fragments :: navigation"></nav>
+
+    <h1>Add a Spot</h1>
+
+    <form method="post" style="max-width:500px;" th:object="${skateSpot}">
+        <div class="form-group">
+            <label th:for="name">Name</label>
+            <input class="form-control" th:field="*{name}" />
+            <span th:errors="*{name}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="description">Description</label>
+            <input class="form-control" th:field="*{description}" />
+            <span th:errors="*{description}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="address">Address</label>
+            <input class="form-control" th:field="*{address}" />
+            <span th:errors="*{address}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="Security">Security</label>
+            <input class="form-inline" type="radio" name="security" value="Yes" th:field="*{security}" />Yes
+            <input class="form-inline" type="radio" name="security" value="No" th:field="*{security}" />No<br/>
+            <span th:errors="*{security}" class="error"></span>
+        </div>
+
+        <input type="submit" value="Add Spot" />
+    </form>
+
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
+<body class="container">
     <div th:replace="fragments :: navigation"></div>
     <h1 th:text="${title}"></h1>
 
@@ -18,7 +18,7 @@
             <td th:text="${spot.name}"></td>
             <td th:text="${spot.description}"></td>
             <td th:text="${spot.address}"></td>
-            <td><a th:href="@{'spot/' + ${spot.spotId}}" th:text="${spot.spotId}"></a></td>
+            <td><a th:href="@{'spot/' + ${spot.id}}" th:text="${spot.id}"></a></td>
         </tr>
 
     </table>

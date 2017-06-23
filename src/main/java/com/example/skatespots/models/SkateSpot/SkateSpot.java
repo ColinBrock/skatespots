@@ -1,37 +1,51 @@
 package com.example.skatespots.models.SkateSpot;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by chris on 5/24/17.
  */
+
+@Entity
 public class SkateSpot {
 
+    @NotNull
+    @Size(min=1, message = "Must have a name.")
     private String name;
+
+    @NotNull
+    @Size(min=1, message = "Must have a description")
     private String description;
+
+    @NotNull
+    @Size(min = 1, message = "Must have an address.")
     private String address;
+
     private String security;
-    private int spotId;
-    private static int nextId =1;
 
-    //pictures;
+    @Id
+    @GeneratedValue
+    private int id;
 
 
-    public SkateSpot(){
-        spotId = nextId;
-        nextId++;
-    }
+    public SkateSpot() {}
 
-    public SkateSpot(String name, String description, String address, String security) {
-        this();
+    public SkateSpot(String name, String description, String address) {
         this.name = name;
         this.description = description;
         this.address = address;
-        this.security = security;
     }
+
 
     public String getName() {
         return name;
     }
-    public void setName(String aName){
+
+    public void setName(String aName) {
         name = aName;
     }
 
@@ -39,15 +53,17 @@ public class SkateSpot {
     public String getDescription() {
         return description;
     }
-    public void setDescription(String aDescription){
+
+    public void setDescription(String aDescription) {
         description = aDescription;
     }
 
 
-    public String getAddress(){
+    public String getAddress() {
         return address;
     }
-    public void setAddress(String anAddress){
+
+    public void setAddress(String anAddress) {
         address = anAddress;
     }
 
@@ -55,14 +71,18 @@ public class SkateSpot {
     public String getSecurity() {
         return security;
     }
+
     public void setSecurity(String security) {
         this.security = security;
     }
 
-    public int getSpotId() {
-        return spotId;
+    public int getId() {
+        return id;
     }
-    public void setSpotId(int spotId) {
-        this.spotId = spotId;
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
+
+

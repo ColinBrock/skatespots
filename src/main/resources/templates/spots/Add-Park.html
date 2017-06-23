@@ -2,37 +2,49 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
-    <div th:replace="fragments :: navigation"></div>
+<body class="container">
+    <nav th:replace="fragments :: navigation"></nav>
+
     <h1>Add a Park</h1>
 
-    <form method="post">
-        <table>
-            <tr>
-                <td>Name <input type="text" name="spotName"/></td>
-            </tr>
-            <tr>
-                <td>Description<textarea rows="2" cols="30" type="text" name="spotDescription"/></td>
-            </tr>
-            <tr>
-                <td>Address<input type="text" name="spotAddress"/></td>
-            </tr>
-            <tr>
-                <td>Hours<input type="text" name="hours"/></td>
-            </tr>
-            <tr>
-                <td>Cost<input type="radio" name="isCost" value="yes"/>Yes<input type="radio" name="isCost" value="no"/>No</td>
-            </tr>
-            <tr>
-                <td>Helmet Required<input type="radio" name="helmet" value="yes"/>Yes<input type="radio" name="helmet" value="no"/>No</td>
-            </tr>
-            <tr>
-                <td>Lights<input type="radio" name="lights" value="yes"/>Yes<input type="radio" name="lights" value="no"/>No</td>
-            </tr>
-            <tr>
-                <td><input type="submit"/></td>
-            </tr>
-        </table>
+
+    <form method="post" style="max-width:600px;" th:object="${skatePark}">
+        <div class="form-group">
+            <label th:for="name">Name</label>
+            <input class="form-control" th:field="*{name}" />
+            <span th:errors="*{name}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="description">Description</label>
+            <input class="form-control" th:field="*{description}" />
+            <span th:errors="*{description}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="address">Address</label>
+            <input class="form-control" th:field="*{address}" />
+            <span th:errors="*{address}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="helmet">Helmet</label>
+            <input class="form-inline" type="radio" name="helmet" value="True" th:field="*{helmet}" />Yes
+            <input class="form-inline" type="radio" name="helmet" value="False" th:field="*{helmet}" />No<br/>
+        </div>
+        <div class="form-group">
+            <label th:for="cost">Cost</label>
+            <input class="form-inline" type="radio" name="cost" value="True" th:field="*{cost}" />Yes
+            <input class="form-inline" type="radio" name="cost" value="False" th:field="*{cost}" />No<br/>
+        </div>
+        <div class="form-group">
+            <label th:for="lights">Lights</label>
+            <input class="form-inline" type="radio" name="lights" value="True" th:field="*{lights}" />Yes
+            <input class="form-inline" type="radio" name="lights" value="False" th:field="*{lights}" />No<br/>
+        </div>
+        <div class="form-group">
+            <label th:for="indoors">Indoors</label>
+            <input class="form-inline" type="radio" name="indoors" value="True" th:field="*{indoors}" />Yes
+            <input class="form-inline" type="radio" name="indoors" value="False" th:field="*{indoors}" />No<br/>
+        </div>
+        <input type="submit" value="Add Spot" />
     </form>
 
 </body>
