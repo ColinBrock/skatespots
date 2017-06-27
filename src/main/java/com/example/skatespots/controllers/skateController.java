@@ -2,18 +2,19 @@ package com.example.skatespots.controllers;
 
 import com.example.skatespots.models.Dao.SkateParkDao;
 import com.example.skatespots.models.Dao.SkateSpotDao;
+import com.example.skatespots.models.Dao.SpotTypeDao;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
+import com.example.skatespots.models.SpotType.SpotType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chris on 5/23/17.
@@ -24,9 +25,11 @@ public class skateController {
 
     @Autowired
     private SkateSpotDao skateSpotDao;
-
     @Autowired
     private SkateParkDao skateParkDao;
+    @Autowired
+    private SpotTypeDao spotTypeDao;
+
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
@@ -41,37 +44,53 @@ public class skateController {
 
         model.addAttribute("title", "Skate Parks");
         model.addAttribute("parks", skateParkDao.findAll());
-        return "spots/Park-List";
+        return "parks/Park-List";
     }
 
     @RequestMapping(value = "addspot", method = RequestMethod.GET)
     public String displayAddSpotForm(Model model) {
         model.addAttribute(new SkateSpot());
+        model.addAttribute("spotType", skateSpotDao.findAll());
         return "spots/Add-Spot";
     }
 
     @RequestMapping(value = "addspot", method = RequestMethod.POST)
-    public String processAddSpotForm(@ModelAttribute @Valid SkateSpot newSkateSpot, Errors errors, Model model) {
+    public String processAddSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors,
+                                     @RequestParam int[] spotTypes, Model model) {
 
         if (errors.hasErrors()) {
-            return "spot/Add-Spot";
+            return "spots/Add-Spot";
         }
 
-        skateSpotDao.save(newSkateSpot);
+        List<SpotType> types = new ArrayList<>();
+
+        for (int spotType : spotTypes){
+            SpotType spot  = spotTypeDao.findOne(spotType);
+            spot.addItem(newSpot);
+            types.add(spot);
+        }
+        newSpot.setSpotTypes(types);
+        skateSpotDao.save(newSpot);
+
+        model.addAttribute("types", types);
+        for (SpotType type : types){
+            System.out.println(type.getName());
+
+        }
         return  "redirect:spotlist";
     }
 
     @RequestMapping(value = "addpark", method = RequestMethod.GET)
     public String displayAddParkForm(Model model) {
         model.addAttribute(new SkatePark());
-        return "spots/Add-Park";
+        return "parks/Add-Park";
     }
 
     @RequestMapping(value = "addpark", method = RequestMethod.POST)
-    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, Model model) {
+    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors) {
 
         if (errors.hasErrors()) {
-            return "spots/Add-Park";
+            return "parks/Add-Park";
         }
 
         skateParkDao.save(newPark);
@@ -90,7 +109,7 @@ public class skateController {
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);
         model.addAttribute("aPark", aPark);
-        return "spots/Park-Detail";
+        return "parks/Park-Detail";
     }
 
 }
