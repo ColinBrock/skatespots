@@ -97,6 +97,7 @@ public class skateController {
     public String spotDetail(Model model, @PathVariable int spotId){
         SkateSpot aSpot = skateSpotDao.findOne(spotId);
         model.addAttribute("aSpot", aSpot);
+        model.addAttribute("address", aSpot.getAddress());
         return "spots/Spot-Detail";
     }
 
@@ -104,6 +105,8 @@ public class skateController {
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);
         model.addAttribute("aPark", aPark);
+        model.addAttribute("address", aPark.getAddress());
+
         return "parks/Park-Detail";
     }
 

@@ -38,6 +38,31 @@
         <td th:text="*{indoors}"></td>
     </tr>
 </table>
+<div id="map" style="width:60%;height:300px;"></div>
+
+<script th:inline="javascript">
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {zoom: 13});
+        var geocoder = new google.maps.Geocoder;
+
+        var location = /*[[${aPark.address}]]*/'default'
+
+        geocoder.geocode({'address': location}, function(results, status) {
+          if (status === 'OK') {
+            map.setCenter(results[0].geometry.location);
+            new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+          } else {
+            window.alert('Geocode was not successful for the following reason: ' +
+                status);
+          }
+        });
+      }
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;callback=initMap">
+</script>
 
 </body>
 </html>
