@@ -1,9 +1,12 @@
 package com.example.skatespots.models.SkateSpot;
 
 
+import com.example.skatespots.models.users.userBasic;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,15 +33,18 @@ public class SkatePark {
     @GeneratedValue
     private int id;
 
-    private boolean helmet;
+    @ManyToOne
+    private userBasic userBasic;
 
-    private boolean cost;
+    private String helmet;
 
-    private boolean lights;
+    private String cost;
+
+    private String lights;
 
     private double price;
 
-    private boolean indoors;
+    private String indoors;
 
     private String hours;
 
@@ -82,20 +88,28 @@ public class SkatePark {
         return id;
     }
 
-    public boolean isHelmet() {
+    public String getHelmet() {
         return helmet;
     }
 
-    public void setHelmet(boolean helmet) {
+    public void setHelmet(String helmet) {
         this.helmet = helmet;
     }
 
-    public boolean isCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(boolean cost) {
+    public void setCost(String cost) {
         this.cost = cost;
+    }
+
+    public String getLights() {
+        return lights;
+    }
+
+    public void setLights(String lights) {
+        this.lights = lights;
     }
 
     public double getPrice() {
@@ -106,12 +120,12 @@ public class SkatePark {
         this.price = price;
     }
 
-    public boolean isLights() {
-        return lights;
+    public String getIndoors() {
+        return indoors;
     }
 
-    public void setLights(boolean lights) {
-        this.lights = lights;
+    public void setIndoors(String indoors) {
+        this.indoors = indoors;
     }
 
     public String getHours() {
@@ -121,14 +135,4 @@ public class SkatePark {
     public void setHours(String hours) {
         this.hours = hours;
     }
-
-    public boolean isIndoors() {
-        return indoors;
-    }
-
-    public void setIndoors(boolean indoors) {
-        this.indoors = indoors;
-    }
-
-
 }

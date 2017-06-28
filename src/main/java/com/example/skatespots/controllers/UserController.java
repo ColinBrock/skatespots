@@ -1,7 +1,9 @@
 package com.example.skatespots.controllers;
 
+import com.example.skatespots.models.Dao.UserDao;
 import com.example.skatespots.models.users.userBasic;
 import org.apache.tomcat.jni.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,10 +20,17 @@ import javax.validation.Valid;
 @RequestMapping("")
 public class UserController {
 
+        @Autowired
+        private UserDao userDao;
 
         @RequestMapping(value ="", method = RequestMethod.GET)
         public String home(){
             return "spots/Home";
+        }
+
+        @RequestMapping(value ="", method = RequestMethod.POST)
+        public String homeLoggedIn(){
+        return "spots/Home";
         }
 
         @RequestMapping(value ="signup", method = RequestMethod.GET)
@@ -41,6 +50,8 @@ public class UserController {
 
             if (userBasic.getPassword().equals(verify)) {
                 model.addAttribute("userBasic", userBasic);
+                userDao.save(userBasic);
+
                 return "spots/Logged-In";
 
             } else {

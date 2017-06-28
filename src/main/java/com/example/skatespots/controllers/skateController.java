@@ -34,7 +34,6 @@ public class skateController {
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
 
-        model.addAttribute("title", "Skate Spots");
         model.addAttribute("spots", skateSpotDao.findAll());
         return "spots/Spot-List";
     }
@@ -73,10 +72,6 @@ public class skateController {
         skateSpotDao.save(newSpot);
 
         model.addAttribute("types", types);
-        for (SpotType type : types){
-            System.out.println(type.getName());
-
-        }
         return  "redirect:spotlist";
     }
 

@@ -1,10 +1,12 @@
 package com.example.skatespots.models.SkateSpot;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.example.skatespots.models.SpotType.SpotType;
+import com.example.skatespots.models.users.userBasic;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by chris on 5/24/17.
@@ -12,6 +14,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class SkateSpot {
+
+    @Id
+    @GeneratedValue
+    private int id;
 
     @NotNull
     @Size(min=1, message = "Must have a name.")
@@ -27,10 +33,11 @@ public class SkateSpot {
 
     private String security;
 
-    @Id
-    @GeneratedValue
-    private int id;
+    @ManyToMany(mappedBy = "spots")
+    private List<SpotType> spotTypes;
 
+    @ManyToOne
+    private userBasic userBasic;
 
     public SkateSpot() {}
 
@@ -80,8 +87,12 @@ public class SkateSpot {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public List<SpotType> getSpotTypes() {
+        return spotTypes;
+    }
+
+    public void setSpotTypes(List<SpotType> spotTypes) {
+        this.spotTypes = spotTypes;
     }
 }
 

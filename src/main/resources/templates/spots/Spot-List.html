@@ -4,21 +4,29 @@
 
 <body class="container">
     <div th:replace="fragments :: navigation"></div>
-    <h1 th:text="${title}"></h1>
+    <div>
+        Spots By Type:
+        <a href="/spottype/1">Rails / Ledges</a> |
+        <a href="/spottype/2">Stairs / Gaps</a> |
+        <a href="/spottype/3">Manuals / Other</a>
+    </div>
+    <br/>
+    <span>Click on Spot Name for more info</span>
 
-    <table>
+    <table class="table">
         <tr>
             <td>Name</td>
             <td>Description</td>
             <td>Address</td>
-            <td>More info</td>
+            <td>Spot Type(s)</td>
         </tr>
 
         <tr th:each="spot : ${spots}">
-            <td th:text="${spot.name}"></td>
+            <td><a th:href="@{'/spot/' + ${spot.id}}" th:text="${spot.name}"></a></td>
             <td th:text="${spot.description}"></td>
             <td th:text="${spot.address}"></td>
-            <td><a th:href="@{'spot/' + ${spot.id}}" th:text="${spot.id}"></a></td>
+            <td th:each="type : ${spot.spotTypes}"
+                th:text="${type.name}"></td>
         </tr>
 
     </table>

@@ -24,10 +24,20 @@
             <span th:errors="*{address}" class="error"></span>
         </div>
         <div class="form-group">
-            <label th:for="Security">Security</label>
+            <label th:for="security">Security</label>
             <input class="form-inline" type="radio" name="security" value="Yes" th:field="*{security}" />Yes
             <input class="form-inline" type="radio" name="security" value="No" th:field="*{security}" />No<br/>
             <span th:errors="*{security}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="spotType">Spot Type</label>
+            <input type="checkbox" name="spotTypes" value="1"/> Rails / Ledges
+            <input type="checkbox" name="spotTypes" value="2"/> Stairs / Gaps
+            <input type="checkbox" name="spotTypes" value="3"/> Manuals / Other
+        </div>
+
+        <div>
+
         </div>
 
         <input type="submit" value="Add Spot" />

@@ -1,14 +1,23 @@
 package com.example.skatespots.models.users;
 
+import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chris on 6/6/17.
  */
+
+@Entity
 public class userBasic {
+
+    @Id
+    @GeneratedValue
+    private int id;
 
     @Size(min=3,max=15, message = "Size must be between 3 and 15 Characters")
     private String username;
@@ -16,9 +25,25 @@ public class userBasic {
     @Size(min = 3, max = 15, message = "Size must be between 3 and 15 Characters")
     private String password;
 
-    //private ArrayList<SkateSpot> spotsSubmitted;
+    @OneToMany
+    @JoinColumn(name = "user_basic_id")
+    private List<SkateSpot> spotsSubmitted = new ArrayList<>();
 
 
+    @OneToMany
+    @JoinColumn(name = "user_basic_id")
+    private List<SkatePark> parksSubmitted = new ArrayList<>();
+
+    public userBasic(){}
+
+    public userBasic(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getUsername(){
         return username;
@@ -35,13 +60,11 @@ public class userBasic {
         this.password = password;
     }
 
-
-/*
-    public ArrayList<SkateSpot> getSpotsSubmitted(){
+    public List<SkateSpot> getSpotsSubmitted(){
         return spotsSubmitted;
     }
 
     public void setSpotsSubmitted(ArrayList<SkateSpot> spotsSubmitted) {
         this.spotsSubmitted = spotsSubmitted;
-    }*/
+    }
 }
