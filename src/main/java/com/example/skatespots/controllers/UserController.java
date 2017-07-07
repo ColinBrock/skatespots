@@ -36,7 +36,7 @@ public class UserController {
         @RequestMapping(value ="signup", method = RequestMethod.GET)
         public String signUpForm(Model model){
             model.addAttribute(new userBasic());
-            return "spots/Sign-Up";
+            return "users/Sign-Up";
         }
 
         @RequestMapping(value = "signup", method = RequestMethod.POST)
@@ -45,7 +45,7 @@ public class UserController {
 
             if (errors.hasErrors()) {
                 model.addAttribute("userBasic", userBasic);
-                return "spots/Sign-Up";
+                return "users/Sign-Up";
             }
 
             if (userBasic.getPassword().equals(verify)) {
@@ -58,7 +58,7 @@ public class UserController {
                 model.addAttribute("userBasic", userBasic);
                 model.addAttribute("noMatch", "These passwords do not match");
                 userBasic.setPassword("");
-                return "spots/Sign-Up";
+                return "users/Sign-Up";
             }
 
         }

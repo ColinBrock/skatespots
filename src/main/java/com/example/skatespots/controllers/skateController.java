@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class skateController {
 
     @RequestMapping(value = "addspot", method = RequestMethod.POST)
     public String processAddSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors,
-                                     @RequestParam int[] spotTypes, Model model) {
+                                     @RequestParam(required = false) int[] spotTypes, Model model) {
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
@@ -64,6 +65,7 @@ public class skateController {
         List<SpotType> types = new ArrayList<>();
 
         for (int spotType : spotTypes){
+
             SpotType spot  = spotTypeDao.findOne(spotType);
             spot.addItem(newSpot);
             types.add(spot);

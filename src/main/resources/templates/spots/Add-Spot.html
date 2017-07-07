@@ -3,6 +3,8 @@
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
+
+
     <nav th:replace="fragments :: navigation"></nav>
 
     <h1>Add a Spot</h1>
@@ -30,16 +32,13 @@
             <span th:errors="*{security}" class="error"></span>
         </div>
         <div class="form-group">
-            <label th:for="spotType">Spot Type</label>
-            <input type="checkbox" name="spotTypes" value="1"/> Rails / Ledges
-            <input type="checkbox" name="spotTypes" value="2"/> Stairs / Gaps
-            <input type="checkbox" name="spotTypes" value="3"/> Manuals / Other
+            <label th:for="spotType">Spot Type (Select at least one)</label>
+            <ul>
+                <li><input type="checkbox" name="spotTypes" value="1"/> Rails / Ledges</li>
+                <li><input type="checkbox" name="spotTypes" value="2"/> Stairs / Gaps</li>
+                <li><input type="checkbox" name="spotTypes" value="3"/> Manuals / Other</li>
+            </ul>
         </div>
-
-        <div>
-
-        </div>
-
         <input type="submit" value="Add Spot" />
     </form>
 

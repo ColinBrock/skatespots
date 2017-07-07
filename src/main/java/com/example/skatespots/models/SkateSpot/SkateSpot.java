@@ -31,7 +31,9 @@ public class SkateSpot {
     @Size(min = 1, message = "Must have an address.")
     private String address;
 
+
     private String security;
+
 
     @ManyToMany(mappedBy = "spots")
     private List<SpotType> spotTypes;
