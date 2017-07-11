@@ -16,6 +16,10 @@
 </div>
 <br/>
 
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+
 <table th:object="${aSpot}">
     <tr>
         <th> Name </th>
@@ -39,7 +43,14 @@
         <td th:each="type : ${aSpot.spotTypes}"
             th:text="${type.name}"></td>
     </tr>
+    <tr>
+        <td><a th:href="@{'/upload/' + ${aSpot.Id}}">Add an Image</a></td>
+    </tr>
 </table>
+
+<div th:if="${aSpot.imgpath}">
+    <img th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
+</div>
 
 <div id="map" style="width:60%;height:300px;"></div>
 
@@ -67,6 +78,7 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;callback=initMap">
 </script>
+
 
 </body>
 </html>

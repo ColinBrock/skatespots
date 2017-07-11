@@ -5,12 +5,11 @@
 <body>
 <div th:replace="fragments :: navigation"></div>
 
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
+
+<div th:text="'upload image for spot#' + ${spotId}"></div>
 
 <div>
-    <form method="POST" enctype="multipart/form-data" action="/">
+    <form method="POST" enctype="multipart/form-data">
         <table>
             <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
             <tr><td></td><td><input type="submit" value="Upload" /></td></tr>

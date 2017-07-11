@@ -1,6 +1,7 @@
 package com.example.skatespots.controllers;
 
 import com.example.skatespots.models.Dao.SkateSpotDao;
+import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.storage.StorageFileNotFoundException;
 import com.example.skatespots.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,10 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
+    @GetMapping("/upload/{spotId}")
+    public String listUploadedFiles(Model model, @PathVariable int spotId) throws IOException {
 
+        model.addAttribute("spotId", spotId);
         model.addAttribute("files", storageService
                 .loadAll()
                 .map(path ->
@@ -56,16 +58,20 @@ public class FileUploadController {
                 .body(file);
     }
 
-    @PostMapping("/")
+    @PostMapping("/upload/{spotId}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes, @PathVariable int spotId) {
 
         storageService.store(file);
+
+        SkateSpot spot = skateSpotDao.findOne(spotId);
+        spot.setImgpath(file.getOriginalFilename());
+        skateSpotDao.save(spot);
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        return "redirect:/spot/{spotId}";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
