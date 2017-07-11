@@ -34,6 +34,7 @@ public class SkateSpot {
 
     private String security;
 
+    private String imgpath;
 
     @ManyToMany(mappedBy = "spots")
     private List<SpotType> spotTypes;
@@ -95,6 +96,22 @@ public class SkateSpot {
 
     public void setSpotTypes(List<SpotType> spotTypes) {
         this.spotTypes = spotTypes;
+    }
+
+    public String getImgpath() {
+        return imgpath;
+    }
+
+    public void setImgpath(String imgpath) {
+        this.imgpath = imgpath;
+    }
+
+    public com.example.skatespots.models.users.userBasic getUserBasic() {
+        return userBasic;
+    }
+
+    public void setUserBasic(com.example.skatespots.models.users.userBasic userBasic) {
+        this.userBasic = userBasic;
     }
 }
 

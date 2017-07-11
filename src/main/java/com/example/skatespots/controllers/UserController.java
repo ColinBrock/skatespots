@@ -23,7 +23,7 @@ public class UserController {
         @Autowired
         private UserDao userDao;
 
-        @RequestMapping(value ="", method = RequestMethod.GET)
+ /*       @RequestMapping(value ="", method = RequestMethod.GET)
         public String home(){
             return "spots/Home";
         }
@@ -31,7 +31,7 @@ public class UserController {
         @RequestMapping(value ="", method = RequestMethod.POST)
         public String homeLoggedIn(){
         return "spots/Home";
-        }
+        }*/
 
         @RequestMapping(value ="signup", method = RequestMethod.GET)
         public String signUpForm(Model model){
