@@ -33,6 +33,8 @@ public class SkatePark {
     @GeneratedValue
     private int id;
 
+    private String imgpath;
+
     @ManyToOne
     private userBasic userBasic;
 
@@ -134,5 +136,13 @@ public class SkatePark {
 
     public void setHours(String hours) {
         this.hours = hours;
+    }
+
+    public String getImgpath() {
+        return imgpath;
+    }
+
+    public void setImgpath(String imgpath) {
+        this.imgpath = imgpath;
     }
 }

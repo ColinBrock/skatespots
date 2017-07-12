@@ -56,7 +56,7 @@ public class skateController {
 
     @RequestMapping(value = "addspot", method = RequestMethod.POST)
     public String processAddSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors,
-                                     @RequestParam(required = false) int[] spotTypes, Model model) {
+                                     @RequestParam int[] spotTypes, Model model) {
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";

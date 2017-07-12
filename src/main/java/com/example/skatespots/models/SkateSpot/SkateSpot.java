@@ -34,6 +34,7 @@ public class SkateSpot {
 
     private String security;
 
+
     private String imgpath;
 
     @ManyToMany(mappedBy = "spots")

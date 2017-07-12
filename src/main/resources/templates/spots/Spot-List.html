@@ -4,12 +4,9 @@
 
 <body class="container">
     <div th:replace="fragments :: navigation"></div>
-    <div>
-        Spots By Type:
-        <a href="/spottype/1">Rails / Ledges</a> |
-        <a href="/spottype/2">Stairs / Gaps</a> |
-        <a href="/spottype/3">Manuals / Other</a>
-    </div>
+
+    <div th:replace="fragments :: sortbytypes"></div>
+
     <br/>
     <span>Click on Spot Name for more info</span>
 

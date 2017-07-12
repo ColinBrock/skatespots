@@ -37,7 +37,16 @@
         <th>Indoors</th>
         <td th:text="*{indoors}"></td>
     </tr>
+    <tr>
+        <td th:unless="${aPark.imgpath}"><a th:href="@{'/upload/park/' + ${aPark.Id}}">Add an Image</a></td>
+    </tr>
 </table>
+
+<div th:if="${aPark.imgpath}">
+    <img th:src="'http://localhost:8080/files/' + ${aPark.imgpath}"/>
+    <a th:href="@{'/remove/park/' + ${aPark.Id}}">Remove This image</a>
+</div>
+
 <div id="map" style="width:60%;height:300px;"></div>
 
 <script th:inline="javascript">

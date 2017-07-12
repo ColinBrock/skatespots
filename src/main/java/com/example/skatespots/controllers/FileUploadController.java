@@ -1,6 +1,8 @@
 package com.example.skatespots.controllers;
 
+import com.example.skatespots.models.Dao.SkateParkDao;
 import com.example.skatespots.models.Dao.SkateSpotDao;
+import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.storage.StorageFileNotFoundException;
 import com.example.skatespots.storage.StorageService;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,27 +27,14 @@ public class FileUploadController {
     @Autowired
     private SkateSpotDao skateSpotDao;
 
+    @Autowired
+    private SkateParkDao skateParkDao;
 
     private final StorageService storageService;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
         this.storageService = storageService;
-    }
-
-    @GetMapping("/upload/{spotId}")
-    public String listUploadedFiles(Model model, @PathVariable int spotId) throws IOException {
-
-        model.addAttribute("spotId", spotId);
-        model.addAttribute("files", storageService
-                .loadAll()
-                .map(path ->
-                        MvcUriComponentsBuilder
-                                .fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString())
-                                .build().toString())
-                .collect(Collectors.toList()));
-
-        return "uploadForm";
     }
 
     @GetMapping("/files/{filename:.+}")
@@ -58,20 +48,74 @@ public class FileUploadController {
                 .body(file);
     }
 
-    @PostMapping("/upload/{spotId}")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    @GetMapping("/upload/spot/{spotId}")
+    public String listUploadedFileSpot(Model model, @PathVariable int spotId) throws IOException {
+
+        model.addAttribute("spotId", spotId);
+        model.addAttribute("files", storageService
+                .loadAll()
+                .map(path ->
+                        MvcUriComponentsBuilder
+                                .fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString())
+                                .build().toString())
+                .collect(Collectors.toList()));
+
+        return "uploadForm";
+    }
+    @PostMapping("/upload/spot/{spotId}")
+    public String handleFileUploadSpot(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes, @PathVariable int spotId) {
 
         storageService.store(file);
-
         SkateSpot spot = skateSpotDao.findOne(spotId);
         spot.setImgpath(file.getOriginalFilename());
         skateSpotDao.save(spot);
-
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-
         return "redirect:/spot/{spotId}";
+    }
+    @GetMapping("/remove/spot/{spotId}")
+    public String removeImageSpot(@PathVariable int spotId){
+
+        SkateSpot spot = skateSpotDao.findOne(spotId);
+        spot.setImgpath(null);
+        skateSpotDao.save(spot);
+        return "redirect:/spot/{spotId}";
+    }
+
+    @GetMapping("/upload/park/{parkId}")
+    public String listUploadedFilePark(Model model, @PathVariable int parkId) throws IOException {
+
+        model.addAttribute("parkId", parkId);
+        model.addAttribute("files", storageService
+                .loadAll()
+                .map(path ->
+                        MvcUriComponentsBuilder
+                                .fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString())
+                                .build().toString())
+                .collect(Collectors.toList()));
+
+        return "uploadForm";
+    }
+    @PostMapping("/upload/park/{parkId}")
+    public String handleFileUploadPark(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes, @PathVariable int parkId) {
+
+        storageService.store(file);
+        SkatePark park = skateParkDao.findOne(parkId);
+        park.setImgpath(file.getOriginalFilename());
+        skateParkDao.save(park);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+        return "redirect:/park/{parkId}";
+    }
+    @GetMapping("/remove/park/{parkId}")
+    public String removeImagePark(@PathVariable int parkId){
+
+        SkatePark park = skateParkDao.findOne(parkId);
+        park.setImgpath(null);
+        skateParkDao.save(park);
+        return "redirect:/park/{parkId}";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

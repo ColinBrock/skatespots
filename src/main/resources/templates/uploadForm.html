@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
+<body class="container">
 <div th:replace="fragments :: navigation"></div>
 
 
-<div th:text="'upload image for spot#' + ${spotId}"></div>
+<H2 th:text="'Upload image for spot# ' + ${spotId}"></H2>
 
 <div>
     <form method="POST" enctype="multipart/form-data">
@@ -16,7 +16,7 @@
         </table>
     </form>
 </div>
-
+<br/>
 <div>
     <ul>
         <li th:each="file : ${files}">

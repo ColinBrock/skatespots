@@ -8,12 +8,8 @@
 <body class="container">
 <div th:replace="fragments :: navigation"></div>
 
-<div>
-    Spots By Type:
-    <a href="/spottype/1">Rails / Ledges</a> |
-    <a href="/spottype/2">Stairs / Gaps</a> |
-    <a href="/spottype/3">Manuals / Other</a>
-</div>
+<div th:replace="fragments :: sortbytypes"></div>
+
 <br/>
 
 <div th:if="${message}">
@@ -44,12 +40,13 @@
             th:text="${type.name}"></td>
     </tr>
     <tr>
-        <td><a th:href="@{'/upload/' + ${aSpot.Id}}">Add an Image</a></td>
+        <td th:unless="${aSpot.imgpath}"><a th:href="@{'/upload/spot/' + ${aSpot.Id}}">Add an Image</a></td>
     </tr>
 </table>
 
 <div th:if="${aSpot.imgpath}">
     <img th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
+    <a th:href="@{'/remove/spot/' + ${aSpot.Id}}">Remove This image</a>
 </div>
 
 <div id="map" style="width:60%;height:300px;"></div>
