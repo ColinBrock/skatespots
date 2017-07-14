@@ -2,10 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
+<body class="container">
+
 <div th:replace="fragments :: navigation"></div>
 <h1>Stl Skatespots</h1>
 
 <h4 th:text="'Welcome ' + ${userBasic.username}"></h4>
+
+<a href="/signout">Log Out</a>
 </body>
 </html>

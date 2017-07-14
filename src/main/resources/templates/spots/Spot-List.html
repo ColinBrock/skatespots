@@ -17,7 +17,6 @@
             <td>Address</td>
             <td>Spot Type(s)</td>
         </tr>
-
         <tr th:each="spot : ${spots}">
             <td><a th:href="@{'/spot/' + ${spot.id}}" th:text="${spot.name}"></a></td>
             <td th:text="${spot.description}"></td>
@@ -25,7 +24,6 @@
             <td th:each="type : ${spot.spotTypes}"
                 th:text="${type.name}"></td>
         </tr>
-
     </table>
 
 

@@ -42,7 +42,6 @@ public class skateController {
     @RequestMapping(value = "parklist", method = RequestMethod.GET)
     public String parksLists(Model model) {
 
-        model.addAttribute("title", "Skate Parks");
         model.addAttribute("parks", skateParkDao.findAll());
         return "parks/Park-List";
     }
@@ -61,7 +60,6 @@ public class skateController {
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }
-
         List<SpotType> types = new ArrayList<>();
 
         for (int spotType : spotTypes){

@@ -60,7 +60,7 @@ public class FileUploadController {
                                 .build().toString())
                 .collect(Collectors.toList()));
 
-        return "uploadForm";
+        return "uploads/uploadForm";
     }
     @PostMapping("/upload/spot/{spotId}")
     public String handleFileUploadSpot(@RequestParam("file") MultipartFile file,
@@ -95,7 +95,7 @@ public class FileUploadController {
                                 .build().toString())
                 .collect(Collectors.toList()));
 
-        return "uploadForm";
+        return "uploads/uploadForm";
     }
     @PostMapping("/upload/park/{parkId}")
     public String handleFileUploadPark(@RequestParam("file") MultipartFile file,

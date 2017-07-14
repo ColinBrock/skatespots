@@ -25,10 +25,10 @@ public class userBasic {
     @Size(min = 3, max = 15, message = "Size must be between 3 and 15 Characters")
     private String password;
 
+
     @OneToMany
     @JoinColumn(name = "user_basic_id")
     private List<SkateSpot> spotsSubmitted = new ArrayList<>();
-
 
     @OneToMany
     @JoinColumn(name = "user_basic_id")
