@@ -42,6 +42,8 @@ public class UserController {
                     LoggedInUser user = loggedInUserIterator.next();
                     userBasic userBasic = user.getUser();
                     model.addAttribute(userBasic);
+                    model.addAttribute("parks",userBasic.getParksSubmitted());
+                    model.addAttribute("spots", userBasic.getSpotsSubmitted());
                     return "users/Logged-In";
 
                 } else {
@@ -65,9 +67,8 @@ public class UserController {
                     } else {
                         return "users/Home";
                     }
-                } else {
-                    return "users/Home";
                 }
+
             }
             return "users/Home";
         }

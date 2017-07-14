@@ -9,6 +9,20 @@
 
 <h4 th:text="'Welcome ' + ${userBasic.username}"></h4>
 
+<div if="spots">
+    <h3>My Spots Uploaded</h3>
+   <ul>
+       <li th:each="spot : ${spots}"><a th:href="@{'spot/' + ${spot.id}}" th:text="${spot.name}"></a></li>
+   </ul>
+</div>
+
+<div if="parks">
+    <h3>My Parks Uploaded</h3>
+    <ul>
+        <li th:each="park : ${parks}"><a th:href="@{'park/' + ${park.id}}" th:text="${park.name}"></a></li>
+    </ul>
+</div>
+
 <a href="/signout">Log Out</a>
 </body>
 </html>

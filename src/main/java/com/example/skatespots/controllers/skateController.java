@@ -1,11 +1,11 @@
 package com.example.skatespots.controllers;
 
-import com.example.skatespots.models.Dao.SkateParkDao;
-import com.example.skatespots.models.Dao.SkateSpotDao;
-import com.example.skatespots.models.Dao.SpotTypeDao;
+import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
+import com.example.skatespots.models.users.LoggedInUser;
+import com.example.skatespots.models.users.userBasic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +30,10 @@ public class skateController {
     private SkateParkDao skateParkDao;
     @Autowired
     private SpotTypeDao spotTypeDao;
+    @Autowired
+    private LoggedInUserDao loggedInUserDao;
+    @Autowired
+    private UserDao userDao;
 
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
@@ -61,14 +65,16 @@ public class skateController {
             return "spots/Add-Spot";
         }
         List<SpotType> types = new ArrayList<>();
-
         for (int spotType : spotTypes){
-
             SpotType spot  = spotTypeDao.findOne(spotType);
             spot.addItem(newSpot);
             types.add(spot);
         }
+
         newSpot.setSpotTypes(types);
+        Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
+        LoggedInUser currentuser = loggedInUser.iterator().next();
+        newSpot.setUserBasic(currentuser.getUser());
         skateSpotDao.save(newSpot);
 
         model.addAttribute("types", types);
@@ -87,8 +93,15 @@ public class skateController {
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }
-
+        Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
+        LoggedInUser currentuser = loggedInUser.iterator().next();
+        newPark.setUserBasic(currentuser.getUser());
         skateParkDao.save(newPark);
+        userBasic user = userDao.findOne(currentuser.getUser().getId());
+        List parks = user.getParksSubmitted();
+        parks.add(newPark);
+        userDao.save(user);
+
         return  "redirect:parklist";
     }
 

@@ -60,11 +60,19 @@ public class userBasic {
         this.password = password;
     }
 
-    public List<SkateSpot> getSpotsSubmitted(){
+    public List<SkateSpot> getSpotsSubmitted() {
         return spotsSubmitted;
     }
 
-    public void setSpotsSubmitted(ArrayList<SkateSpot> spotsSubmitted) {
+    public void setSpotsSubmitted(List<SkateSpot> spotsSubmitted) {
         this.spotsSubmitted = spotsSubmitted;
+    }
+
+    public List<SkatePark> getParksSubmitted() {
+        return parksSubmitted;
+    }
+
+    public void setParksSubmitted(List<SkatePark> parksSubmitted) {
+        this.parksSubmitted = parksSubmitted;
     }
 }

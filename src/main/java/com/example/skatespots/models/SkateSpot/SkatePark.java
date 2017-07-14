@@ -145,4 +145,12 @@ public class SkatePark {
     public void setImgpath(String imgpath) {
         this.imgpath = imgpath;
     }
+
+    public com.example.skatespots.models.users.userBasic getUserBasic() {
+        return userBasic;
+    }
+
+    public void setUserBasic(com.example.skatespots.models.users.userBasic userBasic) {
+        this.userBasic = userBasic;
+    }
 }
