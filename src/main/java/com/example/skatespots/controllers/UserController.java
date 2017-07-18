@@ -62,6 +62,8 @@ public class UserController {
                         LoggedInUser loggedInUser = new LoggedInUser(user);
                         loggedInUserDao.save(loggedInUser);
                         model.addAttribute(user);
+                        model.addAttribute("parks",user.getParksSubmitted());
+                        model.addAttribute("spots", user.getSpotsSubmitted());
                         return "users/Logged-In";
 
                     } else {

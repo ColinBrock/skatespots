@@ -38,14 +38,12 @@ public class skateController {
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
-
         model.addAttribute("spots", skateSpotDao.findAll());
         return "spots/Spot-List";
     }
 
     @RequestMapping(value = "parklist", method = RequestMethod.GET)
     public String parksLists(Model model) {
-
         model.addAttribute("parks", skateParkDao.findAll());
         return "parks/Park-List";
     }
@@ -81,6 +79,39 @@ public class skateController {
         return  "redirect:spotlist";
     }
 
+    @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.GET)
+    public String editSpotForm(Model model, @PathVariable int spotId){
+        SkateSpot skateSpot = skateSpotDao.findOne(spotId);
+
+        model.addAttribute(skateSpot);
+
+        return "spots/Add-Spot";
+    }
+
+    @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.POST)
+    public String processEditSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors, @PathVariable int spotId,
+                                      @RequestParam int[] spotTypes) {
+
+        if (errors.hasErrors()) {
+            return "spots/Add-Spot";
+        }
+
+        List<SpotType> types = new ArrayList<>();
+        for (int spotType : spotTypes){
+            SpotType spot  = spotTypeDao.findOne(spotType);
+            spot.addItem(newSpot);
+            types.add(spot);
+        }
+        newSpot.setSpotTypes(types);
+
+        newSpot.setUserBasic(skateSpotDao.findOne(spotId).getUserBasic());
+        newSpot.setImgpath(skateSpotDao.findOne(spotId).getImgpath());
+        skateSpotDao.save(newSpot);
+        skateSpotDao.delete(spotId);
+
+        return  "redirect:/spotlist";
+    }
+
     @RequestMapping(value = "addpark", method = RequestMethod.GET)
     public String displayAddParkForm(Model model) {
         model.addAttribute(new SkatePark());
@@ -103,6 +134,28 @@ public class skateController {
         userDao.save(user);
 
         return  "redirect:parklist";
+    }
+
+    @RequestMapping(value = "edit/park/{parkId}", method = RequestMethod.GET)
+    public String editParkForm(Model model, @PathVariable int parkId){
+        SkatePark skatePark = skateParkDao.findOne(parkId);
+        model.addAttribute(skatePark);
+
+        return "parks/Add-Park";
+    }
+
+    @RequestMapping(value = "edit/park/{parkId}", method = RequestMethod.POST)
+    public String processEditParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, @PathVariable int parkId) {
+
+        if (errors.hasErrors()) {
+            return "parks/Add-Park";
+        }
+
+        newPark.setUserBasic(skateParkDao.findOne(parkId).getUserBasic());
+        skateParkDao.save(newPark);
+        skateParkDao.delete(parkId);
+
+        return  "redirect:/parklist";
     }
 
 
