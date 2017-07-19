@@ -57,25 +57,31 @@ public class skateController {
 
     @RequestMapping(value = "addspot", method = RequestMethod.POST)
     public String processAddSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors,
-                                     @RequestParam int[] spotTypes, Model model) {
+                                     @RequestParam(required = false) int[] spotTypes, Model model) {
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }
-        List<SpotType> types = new ArrayList<>();
-        for (int spotType : spotTypes){
-            SpotType spot  = spotTypeDao.findOne(spotType);
-            spot.addItem(newSpot);
-            types.add(spot);
+        try {
+            List<SpotType> types = new ArrayList<>();
+            for (int spotType : spotTypes){
+                SpotType spot  = spotTypeDao.findOne(spotType);
+                spot.addItem(newSpot);
+                types.add(spot);
+                newSpot.setSpotTypes(types);
+
+            }
+        } catch (NullPointerException e){
+            model.addAttribute(newSpot);
+            model.addAttribute("check", "Must Select a Spot Type");
+            return "spots/Add-Spot";
         }
 
-        newSpot.setSpotTypes(types);
         Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
         LoggedInUser currentuser = loggedInUser.iterator().next();
         newSpot.setUserBasic(currentuser.getUser());
         skateSpotDao.save(newSpot);
 
-        model.addAttribute("types", types);
         return  "redirect:spotlist";
     }
 

@@ -10,6 +10,7 @@
     <h1>Add a Spot</h1>
 
     <form method="post" style="max-width:500px;" th:object="${skateSpot}">
+
         <div class="form-group">
             <label th:for="name">Name</label>
             <input class="form-control" th:field="*{name}" />
@@ -31,30 +32,16 @@
             <input class="form-inline" type="radio" name="security" value="No" th:field="*{security}" />No<br/>
             <span th:errors="*{security}" class="error"></span>
         </div>
-        <div class="form-group options">
+        <div class="form-group">
             <label th:for="spotType">Spot Type (Select at least one)</label>
+            <span th:if="${check}" th:text="${check}" class="error"></span>
             <ul>
-                <li><input type="checkbox" name="spotTypes" value="1" required="required"/> Rails / Ledges</li>
-                <li><input type="checkbox" name="spotTypes" value="2" required="required"/> Stairs / Gaps</li>
-                <li><input type="checkbox" name="spotTypes" value="3" required="required"/> Manuals / Other</li>
+                <li><input type="checkbox" name="spotTypes" value="1" /> Rails / Ledges</li>
+                <li><input type="checkbox" name="spotTypes" value="2" /> Stairs / Gaps</li>
+                <li><input type="checkbox" name="spotTypes" value="3" /> Manuals / Other</li>
             </ul>
         </div>
-
-        <script type="text/javascript">
-          $(function(){
-            var requiredCheckboxes = $('.options :checkbox[required]');
-            requiredCheckboxes.change(function(){
-                if(requiredCheckboxes.is(':checked')) {
-                    requiredCheckboxes.removeAttr('required');
-                } else {
-                    requiredCheckboxes.attr('required', 'required');
-                }
-            });
-        });
-
-        </script>
-
-        <input type="submit" value="Add Spot" />
+        <input type="submit" value="Add Spot"/>
     </form>
 
 
