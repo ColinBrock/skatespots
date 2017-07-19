@@ -51,7 +51,8 @@ public class FileUploadController {
     @GetMapping("/upload/spot/{spotId}")
     public String listUploadedFileSpot(Model model, @PathVariable int spotId) throws IOException {
 
-        model.addAttribute("spotId", spotId);
+        SkateSpot spot = skateSpotDao.findOne(spotId);
+        model.addAttribute("spotName", spot.getName());
         model.addAttribute("files", storageService
                 .loadAll()
                 .map(path ->
@@ -86,7 +87,9 @@ public class FileUploadController {
     @GetMapping("/upload/park/{parkId}")
     public String listUploadedFilePark(Model model, @PathVariable int parkId) throws IOException {
 
-        model.addAttribute("parkId", parkId);
+        SkatePark park = skateParkDao.findOne(parkId);
+
+        model.addAttribute("parkName", park.getName());
         model.addAttribute("files", storageService
                 .loadAll()
                 .map(path ->

@@ -5,9 +5,8 @@
 <body class="container">
 
 <div th:replace="fragments :: navigation"></div>
-<h1>Stl Skatespots</h1>
 
-<h4 th:text="'Welcome ' + ${userBasic.username}"></h4>
+<h2 th:text="'Welcome ' + ${userBasic.username}"></h2>
 
 <div if="spots">
     <h3>My Spots Uploaded</h3>
@@ -22,7 +21,7 @@
         <li th:each="park : ${parks}"><a th:href="@{'park/' + ${park.id}}" th:text="${park.name}"></a></li>
     </ul>
 </div>
-
-<a href="/signout">Log Out</a>
+<br/>
+<a href="/signout" class="btn btn-default btn-md active" role="button">Log Out</a>
 </body>
 </html>

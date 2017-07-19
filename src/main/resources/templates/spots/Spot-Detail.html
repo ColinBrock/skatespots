@@ -40,16 +40,18 @@
             th:text="${type.name}"></td>
     </tr>
     <tr>
-        <td th:unless="${aSpot.imgpath}"><a th:href="@{'/upload/spot/' + ${aSpot.Id}}">Add an Image</a></td>
+        <td th:unless="${aSpot.imgpath}"><a th:href="@{'/upload/spot/' + ${aSpot.Id}}"
+                                            class="btn btn-default btn-md active" role="button">Add an Image</a></td>
     </tr>
 </table>
 
 <div th:if="${aSpot.imgpath}">
     <img class=".img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
     <br/>
-    <a th:href="@{'/remove/spot/' + ${aSpot.Id}}">Remove This image</a>
+    <br/>
+    <a th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn btn-default btn-md active" role="button">Remove This image</a>
 </div>
-
+<br/>
 <div id="map" style="width:60%;height:300px;"></div>
 
     <script th:inline="javascript">
@@ -76,8 +78,9 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;callback=initMap">
 </script>
+
 <br/>
-<a th:href="@{'/edit/spot/' + ${spotId}}">Edit This Spot</a>
+<a th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit This Spot</a>
 
 </body>
 </html>

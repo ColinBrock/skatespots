@@ -77,7 +77,6 @@ public class UserController {
 
         @RequestMapping(value = "signout", method = RequestMethod.GET)
         public String userSignOut(){
-
             loggedInUserDao.deleteAll();
             return "redirect:/";
         }
@@ -97,12 +96,24 @@ public class UserController {
                 return "users/Sign-Up";
             }
 
+            ArrayList<userBasic> users = new ArrayList<>();
+            Iterator<userBasic> allusers = userDao.findAll().iterator();
+            while (allusers.hasNext()){
+                userBasic user = allusers.next();
+                users.add(user);
+            }
+            for ( userBasic user : users) {
+                if (user.getUsername().equals(userBasic.getUsername())){
+                    model.addAttribute("usernametaken", "This username is already taken.");
+                    return "users/Sign-Up";
+                }
+            }
+
             if (userBasic.getPassword().equals(verify)) {
                 model.addAttribute("userBasic", userBasic);
                 userDao.save(userBasic);
                 LoggedInUser loggedInUser = new LoggedInUser(userBasic);
                 loggedInUserDao.save(loggedInUser);
-
                 return "users/Logged-In";
 
             } else {

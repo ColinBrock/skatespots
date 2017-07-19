@@ -5,32 +5,32 @@
 <body class="container">
 <div th:replace="fragments :: navigation"></div>
 
-    <h3>Signup</h3>
+    <h2>Signup</h2>
+
 
     <form method="post" th:object="${userBasic}">
-        <table>
-            <tr>
-                <td>Username <input type="text" name="username" th:field="*{username}"/>
-                    <span th:errors="*{username}"></span>
-
-                </td>
-            </tr>
-            <tr>
-                <td>Password<input type="password" name="password" th:field="*{password}"/></td>
-                <span th:errors="*{password}"></span>
-                <span th:text="${noMatch}"></span>
-            </tr>
-            <tr>
-                <td>Verify Password<input type="password" name="verify"/></td>
-                <span th:errors="*{password}"></span>
-            </tr>
-            <tr>
-                <td><input type="submit"/></td>
-            </tr>
-        </table>
+        <div class="form-group">
+            <label th:for="username">Username</label>
+            <input class="form-control" th:field="*{username}" />
+            <span th:errors="*{username}" class="error"></span>
+            <span th:if="${usernametaken}" th:text="${usernametaken}"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="password">Password</label>
+            <input type="password" class="form-control" th:field="*{password}" />
+            <span th:errors="*{password}" class="error"></span>
+            <span th:text="${noMatch}"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="name">Verify Password</label>
+            <input type="password" class="form-control" name="verify"/>
+            <span th:errors="*{password}" class="error"></span>
+            <span th:text="${noMatch}"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit"/>
+        </div>
     </form>
-
-
 </body>
 </html>
 

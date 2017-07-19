@@ -7,7 +7,7 @@
 <div th:replace="fragments :: navigation"></div>
 
 
-<table th:object="${aPark}">
+<table class="table" th:object="${aPark}">
     <tr>
         <th> Name </th>
         <td th:text="*{name}"></td>
@@ -38,16 +38,18 @@
         <td th:text="*{indoors}"></td>
     </tr>
     <tr>
-        <td th:unless="${aPark.imgpath}"><a th:href="@{'/upload/park/' + ${aPark.Id}}">Add an Image</a></td>
+        <td th:unless="${aPark.imgpath}"><a th:href="@{'/upload/park/' + ${aPark.Id}}"
+                                            class="btn btn-default btn-md active" role="button">Add an Image</a></td>
     </tr>
 </table>
 
 <div th:if="${aPark.imgpath}">
     <img th:src="'http://localhost:8080/files/' + ${aPark.imgpath}"/>
     <br/>
-    <a th:href="@{'/remove/park/' + ${aPark.Id}}">Remove This image</a>
+    <br/>
+    <a th:href="@{'/remove/park/' + ${aPark.Id}}" class="btn btn-default btn-md active" role="button" >Remove This image</a>
 </div>
-
+<br/>
 <div id="map" style="width:60%;height:300px;"></div>
 
 <script th:inline="javascript">
@@ -75,6 +77,7 @@
 </script>
 
 <br/>
-<a th:href="@{'/edit/park/' + ${parkId}}">Edit This Park</a>
+<a th:href="@{'/edit/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Edit This Park</a>
+
 </body>
 </html>

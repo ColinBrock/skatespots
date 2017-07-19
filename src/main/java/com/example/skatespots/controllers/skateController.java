@@ -152,6 +152,7 @@ public class skateController {
         }
 
         newPark.setUserBasic(skateParkDao.findOne(parkId).getUserBasic());
+        newPark.setImgpath(skateParkDao.findOne(parkId).getImgpath());
         skateParkDao.save(newPark);
         skateParkDao.delete(parkId);
 
