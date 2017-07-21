@@ -37,11 +37,12 @@
         <th>Indoors</th>
         <td th:text="*{indoors}"></td>
     </tr>
-    <tr>
-        <td th:unless="${aPark.imgpath}"><a th:href="@{'/upload/park/' + ${aPark.Id}}"
-                                            class="btn btn-default btn-md active" role="button">Add an Image</a></td>
-    </tr>
 </table>
+<div th:unless="${aPark.imgpath}">
+    <br/>
+    <a th:href="@{'/upload/park/' + ${aPark.Id}}"
+       class="btn btn-default btn-md active" role="button">Add an Image</a>
+</div>
 
 <div th:if="${aPark.imgpath}">
     <img th:src="'http://localhost:8080/files/' + ${aPark.imgpath}"/>
@@ -78,6 +79,7 @@
 
 <br/>
 <a th:href="@{'/edit/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Edit This Park</a>
-
+<br/>
+<br/>
 </body>
 </html>

@@ -6,6 +6,12 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 
+#map{
+    width: 60%;
+    height: 300px;
+    margin: auto;
+}
+
 .center{
     margin: auto;
 }

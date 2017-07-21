@@ -64,25 +64,32 @@ public class skateController {
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }
-        try {
+        if (spotTypes == null) {
+            model.addAttribute(newSpot);
+            model.addAttribute("check", "Must Select a Spot Type");
+            return "spots/Add-Spot";
+        } else {
             List<SpotType> types = new ArrayList<>();
-            for (int spotType : spotTypes){
-                SpotType spot  = spotTypeDao.findOne(spotType);
+            for (int spotType : spotTypes) {
+                SpotType spot = spotTypeDao.findOne(spotType);
                 spot.addItem(newSpot);
                 types.add(spot);
                 newSpot.setSpotTypes(types);
             }
-        } catch (NullPointerException e){
-            model.addAttribute(newSpot);
-            model.addAttribute("check", "Must Select a Spot Type");
+        }
+        Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
+        if (loggedInUser.iterator().hasNext()) {
+            LoggedInUser currentuser = loggedInUser.iterator().next();
+            newSpot.setUserBasic(currentuser.getUser());
+            skateSpotDao.save(newSpot);
+            List<SkateSpot> spots = currentuser.getUser().getSpotsSubmitted();
+            spots.add(newSpot);
+            currentuser.getUser().setSpotsSubmitted(spots);
+            return "redirect:spotlist";
+        } else {
+            model.addAttribute("mustlogin", "You must login before submitting a Spot or Park");
             return "spots/Add-Spot";
         }
-
-        Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
-        LoggedInUser currentuser = loggedInUser.iterator().next();
-        newSpot.setUserBasic(currentuser.getUser());
-        skateSpotDao.save(newSpot);
-        return  "redirect:spotlist";
     }
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.GET)
@@ -99,7 +106,11 @@ public class skateController {
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }
-        try {
+        if (spotTypes == null) {
+            model.addAttribute(newSpot);
+            model.addAttribute("check", "Must Select a Spot Type");
+            return "spots/Add-Spot";
+        } else {
             List<SpotType> types = new ArrayList<>();
             for (int spotType : spotTypes) {
                 SpotType spot = spotTypeDao.findOne(spotType);
@@ -107,12 +118,7 @@ public class skateController {
                 types.add(spot);
                 newSpot.setSpotTypes(types);
             }
-        } catch (NullPointerException e) {
-            model.addAttribute(newSpot);
-            model.addAttribute("check", "Must Select a Spot Type");
-            return "spots/Add-Spot";
         }
-
         newSpot.setUserBasic(skateSpotDao.findOne(spotId).getUserBasic());
         newSpot.setImgpath(skateSpotDao.findOne(spotId).getImgpath());
         skateSpotDao.save(newSpot);
@@ -127,22 +133,26 @@ public class skateController {
     }
 
     @RequestMapping(value = "addpark", method = RequestMethod.POST)
-    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors) {
+    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }
-
         Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
-        LoggedInUser currentuser = loggedInUser.iterator().next();
-        newPark.setUserBasic(currentuser.getUser());
-        skateParkDao.save(newPark);
-        userBasic user = userDao.findOne(currentuser.getUser().getId());
-        List<SkatePark> parks = user.getParksSubmitted();
-        parks.add(newPark);
-        user.setParksSubmitted(parks);
-        userDao.save(user);
 
+        if (loggedInUser.iterator().hasNext()) {
+            LoggedInUser currentuser = loggedInUser.iterator().next();
+            newPark.setUserBasic(currentuser.getUser());
+            skateParkDao.save(newPark);
+            userBasic user = userDao.findOne(currentuser.getUser().getId());
+            List<SkatePark> parks = user.getParksSubmitted();
+            parks.add(newPark);
+            user.setParksSubmitted(parks);
+            userDao.save(user);
+        } else {
+            model.addAttribute("mustlogin", "You must login before submitting a Spot or Park");
+            return "parks/Add-Park";
+        }
         return "redirect:/parklist";
     }
 
@@ -172,11 +182,11 @@ public class skateController {
     public String spotDetail(Model model, @PathVariable int spotId){
         SkateSpot aSpot = skateSpotDao.findOne(spotId);
         List<SpotType> spottypes = aSpot.getSpotTypes();
+
         StringBuilder types = new StringBuilder();
         for (SpotType type : spottypes) {
             types.append(type.getName());
             types.append(" - ");
-
         }
         int i = types.lastIndexOf("-");
         types.deleteCharAt(i);

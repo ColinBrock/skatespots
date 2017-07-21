@@ -6,7 +6,10 @@
     <nav th:replace="fragments :: navigation"></nav>
 
     <h1>Add a Park</h1>
-
+    <span class="error" th:if="${mustlogin}">
+        <a href="/">Click here to Login</a>
+        <p th:text="${mustlogin}"></p>
+    </span>
 
     <form method="post" style="max-width:600px;" th:object="${skatePark}">
         <div class="form-group">

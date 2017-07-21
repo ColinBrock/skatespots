@@ -7,6 +7,10 @@
     <nav th:replace="fragments :: navigation"></nav>
 
     <h1>Add a Spot</h1>
+    <span class="error" th:if="${mustlogin}">
+        <a href="/">Click here to Login</a>
+        <p th:text="${mustlogin}"></p>
+    </span>
 
     <form method="post" style="max-width:500px;" th:object="${skateSpot}">
 

@@ -10,7 +10,7 @@
 <H2 th:if="${parkName}" th:text="'Upload image for park - ' + ${parkName}"></H2>
 
 <div>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" style="max-width:400px;" enctype="multipart/form-data">
         <div class="form-group">
             <label>File to Upload</label>
             <input class="form-control" type="file" name="file"/>
@@ -22,7 +22,6 @@
     </form>
 </div>
 <br/>
-
 <div>
     <h3>Photos already uploaded</h3>
     <ul>

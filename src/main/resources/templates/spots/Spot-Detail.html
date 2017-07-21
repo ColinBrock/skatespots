@@ -38,11 +38,13 @@
         <th>Spot Type</th>
         <td th:text="${types}"></td>
     </tr>
-    <tr>
-        <td th:unless="${aSpot.imgpath}"><a th:href="@{'/upload/spot/' + ${aSpot.Id}}"
-                                            class="btn btn-default btn-md active" role="button">Add an Image</a></td>
-    </tr>
 </table>
+
+<div th:unless="${aSpot.imgpath}">
+    <br/>
+    <a th:href="@{'/upload/spot/' + ${aSpot.Id}}"
+       class="btn btn-default btn-md active" role="button">Add an Image</a>
+</div>
 
 <div th:if="${aSpot.imgpath}">
     <img class=".img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
@@ -80,6 +82,8 @@
 
 <br/>
 <a th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit This Spot</a>
+<br/>
+<br/>
 
 </body>
 </html>
