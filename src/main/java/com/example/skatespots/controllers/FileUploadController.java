@@ -18,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,6 +95,10 @@ public class FileUploadController {
     public String removeImageSpot(@PathVariable int spotId){
 
         SkateSpot spot = skateSpotDao.findOne(spotId);
+        Path path = storageService.load(spot.getImgpath());
+        File file = path.toFile();
+        storageService.deleteOne(file);
+
         spot.setImgpath(null);
         skateSpotDao.save(spot);
         return "redirect:/spot/{spotId}";
@@ -100,7 +106,6 @@ public class FileUploadController {
 
     @GetMapping("/upload/park/{parkId}")
     public String listUploadedFilePark(Model model, @PathVariable int parkId) throws IOException {
-
         SkatePark park = skateParkDao.findOne(parkId);
         model.addAttribute("parkName", park.getName());
         model.addAttribute("files", storageService
@@ -140,8 +145,12 @@ public class FileUploadController {
     }
     @GetMapping("/remove/park/{parkId}")
     public String removeImagePark(@PathVariable int parkId){
-
+        
         SkatePark park = skateParkDao.findOne(parkId);
+        Path path = storageService.load(park.getImgpath());
+        File file = path.toFile();
+        storageService.deleteOne(file);
+
         park.setImgpath(null);
         skateParkDao.save(park);
         return "redirect:/park/{parkId}";
