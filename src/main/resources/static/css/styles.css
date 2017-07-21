@@ -4,7 +4,23 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-span.error{
+
+
+.center{
+    margin: auto;
+}
+
+
+.btn btn-default btn-md active {
+    display: table;
+    margin: auto;
+}
+
+.error{
+    font-size: 18px;
+    color:red;
+}
+#addspot span{
     font-size: 18px;
     color:red;
 }

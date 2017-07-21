@@ -36,8 +36,7 @@
     </tr>
     <tr>
         <th>Spot Type</th>
-        <td th:each="type : ${aSpot.spotTypes}"
-            th:text="${type.name}"></td>
+        <td th:text="${types}"></td>
     </tr>
     <tr>
         <td th:unless="${aSpot.imgpath}"><a th:href="@{'/upload/spot/' + ${aSpot.Id}}"

@@ -54,8 +54,14 @@ public class UserController {
         @RequestMapping(value ="", method = RequestMethod.POST)
         public String homeLoggedIn(Model model, @RequestParam String username,@RequestParam String password ){
 
-            Iterable<userBasic> allusers = userDao.findAll();
-            for (userBasic user : allusers) {
+            ArrayList<userBasic> users = new ArrayList<>();
+            Iterator<userBasic> allusers = userDao.findAll().iterator();
+
+            while (allusers.hasNext()) {
+                userBasic user = allusers.next();
+                users.add(user);
+            }
+            for (userBasic user : users) {
                 if (user.getUsername().equals(username)) {
                     if (user.getPassword().equals(password)) {
 
@@ -67,11 +73,15 @@ public class UserController {
                         return "users/Logged-In";
 
                     } else {
+                        model.addAttribute("user", username);
+                        model.addAttribute("password", "This password is incorrect.");
                         return "users/Home";
                     }
                 }
 
             }
+            model.addAttribute("user", username);
+            model.addAttribute("username", "There is no account matching that username");
             return "users/Home";
         }
 

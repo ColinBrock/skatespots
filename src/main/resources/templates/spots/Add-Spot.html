@@ -4,7 +4,6 @@
 
 <body class="container">
 
-
     <nav th:replace="fragments :: navigation"></nav>
 
     <h1>Add a Spot</h1>
@@ -14,27 +13,27 @@
         <div class="form-group">
             <label th:for="name">Name</label>
             <input class="form-control" th:field="*{name}" />
-            <span th:errors="*{name}" class="error"></span>
+            <span th:errors="*{name}" style="font-size: 18px;color:red;"></span>
         </div>
         <div class="form-group">
             <label th:for="description">Description</label>
             <input class="form-control" th:field="*{description}" />
-            <span th:errors="*{description}" class="error"></span>
+            <span th:errors="*{description}" style="font-size: 18px;color:red;"></span>
         </div>
         <div class="form-group">
             <label th:for="address">Address</label>
             <input class="form-control" th:field="*{address}" />
-            <span th:errors="*{address}" class="error"></span>
+            <span th:errors="*{address}" style="font-size: 18px;color:red;"></span>
         </div>
         <div class="form-group">
             <label th:for="security">Security</label>
             <input class="form-inline" type="radio" name="security" value="Yes" th:field="*{security}" />Yes
             <input class="form-inline" type="radio" name="security" value="No" th:field="*{security}" />No<br/>
-            <span th:errors="*{security}" class="error"></span>
+            <span th:errors="*{security}" style="font-size: 18px;color:red;"></span>
         </div>
         <div class="form-group">
             <label th:for="spotType">Spot Type (Select at least one)</label>
-            <span th:if="${check}" th:text="${check}" class="error"></span>
+            <span th:if="${check}" th:text="${check}" style="font-size: 18px;color:red;"></span>
             <ul>
                 <li><input type="checkbox" name="spotTypes" value="1" /> Rails / Ledges</li>
                 <li><input type="checkbox" name="spotTypes" value="2" /> Stairs / Gaps</li>

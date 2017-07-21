@@ -17,6 +17,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.thymeleaf.util.StringUtils.concat;
+
 /**
  * Created by chris on 5/23/17.
  */
@@ -69,7 +71,6 @@ public class skateController {
                 spot.addItem(newSpot);
                 types.add(spot);
                 newSpot.setSpotTypes(types);
-
             }
         } catch (NullPointerException e){
             model.addAttribute(newSpot);
@@ -81,40 +82,41 @@ public class skateController {
         LoggedInUser currentuser = loggedInUser.iterator().next();
         newSpot.setUserBasic(currentuser.getUser());
         skateSpotDao.save(newSpot);
-
         return  "redirect:spotlist";
     }
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.GET)
     public String editSpotForm(Model model, @PathVariable int spotId){
         SkateSpot skateSpot = skateSpotDao.findOne(spotId);
-
         model.addAttribute(skateSpot);
-
         return "spots/Add-Spot";
     }
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.POST)
     public String processEditSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors, @PathVariable int spotId,
-                                      @RequestParam int[] spotTypes) {
+                                      @RequestParam(required = false) int[] spotTypes, Model model) {
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }
-
-        List<SpotType> types = new ArrayList<>();
-        for (int spotType : spotTypes){
-            SpotType spot  = spotTypeDao.findOne(spotType);
-            spot.addItem(newSpot);
-            types.add(spot);
+        try {
+            List<SpotType> types = new ArrayList<>();
+            for (int spotType : spotTypes) {
+                SpotType spot = spotTypeDao.findOne(spotType);
+                spot.addItem(newSpot);
+                types.add(spot);
+                newSpot.setSpotTypes(types);
+            }
+        } catch (NullPointerException e) {
+            model.addAttribute(newSpot);
+            model.addAttribute("check", "Must Select a Spot Type");
+            return "spots/Add-Spot";
         }
-        newSpot.setSpotTypes(types);
 
         newSpot.setUserBasic(skateSpotDao.findOne(spotId).getUserBasic());
         newSpot.setImgpath(skateSpotDao.findOne(spotId).getImgpath());
         skateSpotDao.save(newSpot);
         skateSpotDao.delete(spotId);
-
         return  "redirect:/spotlist";
     }
 
@@ -130,23 +132,24 @@ public class skateController {
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }
+
         Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
         LoggedInUser currentuser = loggedInUser.iterator().next();
         newPark.setUserBasic(currentuser.getUser());
         skateParkDao.save(newPark);
         userBasic user = userDao.findOne(currentuser.getUser().getId());
-        List parks = user.getParksSubmitted();
+        List<SkatePark> parks = user.getParksSubmitted();
         parks.add(newPark);
+        user.setParksSubmitted(parks);
         userDao.save(user);
 
-        return  "redirect:parklist";
+        return "redirect:/parklist";
     }
 
     @RequestMapping(value = "edit/park/{parkId}", method = RequestMethod.GET)
     public String editParkForm(Model model, @PathVariable int parkId){
         SkatePark skatePark = skateParkDao.findOne(parkId);
         model.addAttribute(skatePark);
-
         return "parks/Add-Park";
     }
 
@@ -161,7 +164,6 @@ public class skateController {
         newPark.setImgpath(skateParkDao.findOne(parkId).getImgpath());
         skateParkDao.save(newPark);
         skateParkDao.delete(parkId);
-
         return  "redirect:/parklist";
     }
 
@@ -169,6 +171,17 @@ public class skateController {
     @RequestMapping(value = "spot/{spotId}", method = RequestMethod.GET)
     public String spotDetail(Model model, @PathVariable int spotId){
         SkateSpot aSpot = skateSpotDao.findOne(spotId);
+        List<SpotType> spottypes = aSpot.getSpotTypes();
+        StringBuilder types = new StringBuilder();
+        for (SpotType type : spottypes) {
+            types.append(type.getName());
+            types.append(" - ");
+
+        }
+        int i = types.lastIndexOf("-");
+        types.deleteCharAt(i);
+
+        model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
         model.addAttribute("address", aSpot.getAddress());
         return "spots/Spot-Detail";
@@ -179,7 +192,6 @@ public class skateController {
         SkatePark aPark = skateParkDao.findOne(parkId);
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());
-
         return "parks/Park-Detail";
     }
 
