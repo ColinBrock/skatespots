@@ -81,8 +81,8 @@
 <a th:href="@{'/edit/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Edit This Park</a>
 <br/>
 <br/>
-<a th:if="${delete}" th:href="@{'/delete/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Delete
-    This Park</a>
+<a th:if="${delete}" th:href="@{'/delete/park/' + ${parkId}}" class="btn btn-default btn-md active"
+   role="button" onclick="return confirm('Are you sure?')">Delete This Park</a>
 
 </body>
 </html>

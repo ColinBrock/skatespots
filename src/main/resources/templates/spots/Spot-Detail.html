@@ -84,7 +84,7 @@
 <a th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit This Spot</a>
 <br/>
 <br/>
-<a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Delete
-    This Spot</a>
+<a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn btn-default btn-md active"
+   role="button" onclick="return confirm('Are you sure?')">Delete This Spot</a>
 </body>
 </html>
