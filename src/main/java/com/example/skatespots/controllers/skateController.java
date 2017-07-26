@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.thymeleaf.util.StringUtils.concat;
@@ -126,6 +127,12 @@ public class skateController {
         return  "redirect:/spotlist";
     }
 
+    @RequestMapping(value = "delete/spot/{spotId}", method = RequestMethod.GET)
+    public String deleteSpot(Model model, @PathVariable int spotId) {
+        skateSpotDao.delete(spotId);
+        return "redirect:/spotlist";
+    }
+
     @RequestMapping(value = "addpark", method = RequestMethod.GET)
     public String displayAddParkForm(Model model) {
         model.addAttribute(new SkatePark());
@@ -177,6 +184,12 @@ public class skateController {
         return  "redirect:/parklist";
     }
 
+    @RequestMapping(value = "delete/park/{parkId}", method = RequestMethod.GET)
+    public String deletePark(Model model, @PathVariable int parkId) {
+        skateParkDao.delete(parkId);
+        return "redirect:/parklist";
+    }
+
 
     @RequestMapping(value = "spot/{spotId}", method = RequestMethod.GET)
     public String spotDetail(Model model, @PathVariable int spotId){
@@ -191,6 +204,14 @@ public class skateController {
         int i = types.lastIndexOf("-");
         types.deleteCharAt(i);
 
+        Iterator<LoggedInUser> loggedin = loggedInUserDao.findAll().iterator();
+        if (loggedin.hasNext()) {
+            userBasic user = loggedin.next().getUser();
+            if (user == aSpot.getUserBasic()) {
+                model.addAttribute("delete", "delete");
+            }
+        }
+
         model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
         model.addAttribute("address", aSpot.getAddress());
@@ -200,6 +221,14 @@ public class skateController {
     @RequestMapping(value = "park/{parkId}", method = RequestMethod.GET)
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);
+
+        Iterator<LoggedInUser> loggedin = loggedInUserDao.findAll().iterator();
+        if (loggedin.hasNext()) {
+            userBasic user = loggedin.next().getUser();
+            if (user == aPark.getUserBasic()) {
+                model.addAttribute("delete", "delete");
+            }
+        }
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());
         return "parks/Park-Detail";
