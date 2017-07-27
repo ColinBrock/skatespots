@@ -234,4 +234,21 @@ public class skateController {
         return "parks/Park-Detail";
     }
 
+    @RequestMapping(value = "nearme", method = RequestMethod.GET)
+    public String nearMe(Model model) {
+        ArrayList<String> locations = new ArrayList<>();
+
+        Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
+        while (spots.hasNext()) {
+            String address = spots.next().getAddress();
+            locations.add(address);
+        }
+        model.addAttribute("locations", locations);
+        return "allspots/All-Spots";
+    }
+
+   /* @RequestMapping(value = "nearme", method = RequestMethod.POST)
+    public String processNearMe(Model model){
+        return "All-Spots";
+    }*/
 }
