@@ -6,6 +6,7 @@ import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
 import com.example.skatespots.models.users.LoggedInUser;
 import com.example.skatespots.models.users.userBasic;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -238,12 +239,23 @@ public class skateController {
     public String nearMe(Model model) {
         ArrayList<String> locations = new ArrayList<>();
 
+        ArrayList<SkateSpot> jsonSpots = new ArrayList<>();
+        Gson gson = new Gson();
+
+
         Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
         while (spots.hasNext()) {
-            String address = spots.next().getAddress();
-            locations.add(address);
+            SkateSpot spot = spots.next();
+            locations.add(spot.getAddress());
+            SkateSpot skatespot = new SkateSpot(spot.getName(), spot.getDescription(), spot.getAddress());
+            jsonSpots.add(skatespot);
         }
+
+        String json = gson.toJson(jsonSpots);
+        System.out.println(json);
+        model.addAttribute("json", json);
         model.addAttribute("locations", locations);
+        model.addAttribute("spots", spots);
         return "allspots/All-Spots";
     }
 
@@ -251,4 +263,5 @@ public class skateController {
     public String processNearMe(Model model){
         return "All-Spots";
     }*/
+
 }
