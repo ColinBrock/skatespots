@@ -237,24 +237,16 @@ public class skateController {
 
     @RequestMapping(value = "nearme", method = RequestMethod.GET)
     public String nearMe(Model model) {
-        ArrayList<String> locations = new ArrayList<>();
 
-        ArrayList<SkateSpot> jsonSpots = new ArrayList<>();
-        Gson gson = new Gson();
+        ArrayList<SkateSpot> spots = new ArrayList<>();
 
-
-        Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
-        while (spots.hasNext()) {
-            SkateSpot spot = spots.next();
-            locations.add(spot.getAddress());
+        Iterator<SkateSpot> allspots = skateSpotDao.findAll().iterator();
+        while (allspots.hasNext()) {
+            SkateSpot spot = allspots.next();
             SkateSpot skatespot = new SkateSpot(spot.getName(), spot.getDescription(), spot.getAddress());
-            jsonSpots.add(skatespot);
+            spots.add(skatespot);
         }
 
-        String json = gson.toJson(jsonSpots);
-        System.out.println(json);
-        model.addAttribute("json", json);
-        model.addAttribute("locations", locations);
         model.addAttribute("spots", spots);
         return "allspots/All-Spots";
     }

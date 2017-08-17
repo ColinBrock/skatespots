@@ -10,30 +10,37 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
+
+
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
 
-        var locations = /*[[${locations}]]*/
-        var json = /*[[${json}]]*/
+        var spots = /*[[${spots}]]*/
+        var markers = new Array();
 
-        for (var i=0; i < locations.length; i++){
+        for (var i=0; i < spots.length; i++){
 
-        geocoder.geocode({'address': locations[i]}, function(results, status) {
+        geocoder.geocode({'address': spots[i].address }, function(results, status) {
           if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
+
+            markers.push(results[0].geometry.location);
+
             new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location
+            position: results[0].geometry.location,
+            map: map
             });
+
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
                 status);
           }
         });
         }
-      }
 
+
+      }
     /*]]>*/
 
 </script>
