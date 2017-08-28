@@ -5,7 +5,7 @@
 <body class="container">
 <div th:replace="fragments :: navigation"></div>
 
-<div id="map"></div>
+<div id="bigmap"></div>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -13,7 +13,7 @@
 
 
       function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
+        var map = new google.maps.Map(document.getElementById('bigmap'), {zoom: 11});
         var geocoder = new google.maps.Geocoder;
 
         var spots = /*[[${spots}]]*/
@@ -24,20 +24,34 @@
         geocoder.geocode({'address': spots[i].address }, function(results, status) {
           if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
-
             markers.push(results[0].geometry.location);
-
-            new google.maps.Marker({
-            position: results[0].geometry.location,
-            map: map
-            });
-
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
                 status);
           }
         });
         }
+
+    function createMarker(lat, lon, html) {
+        var newmarker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lon),
+            map: map,
+            title: html
+        });
+
+        newmarker['infowindow'] = new google.maps.InfoWindow({
+                content: html
+            });
+
+        google.maps.event.addListener(newmarker, 'mouseover', function() {
+            this['infowindow'].open(map, this);
+        });
+    }
+
+    for (var i=0; i < spots.length; i++){
+
+        createMarker(markers[i].lat, markers[i].lng, spots[i].name)
+    }
 
 
       }
