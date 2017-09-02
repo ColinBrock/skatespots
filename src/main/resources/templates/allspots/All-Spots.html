@@ -11,7 +11,6 @@
     /*<![CDATA[*/
 
 
-
       function initMap() {
         var map = new google.maps.Map(document.getElementById('bigmap'), {zoom: 11});
         var geocoder = new google.maps.Geocoder;
@@ -23,7 +22,6 @@
 
         geocoder.geocode({'address': spots[i].address }, function(results, status) {
           if (status === 'OK') {
-            map.setCenter(results[0].geometry.location);
             markers.push(results[0].geometry.location);
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
