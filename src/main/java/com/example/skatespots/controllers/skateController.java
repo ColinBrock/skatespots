@@ -8,6 +8,8 @@ import com.example.skatespots.models.users.LoggedInUser;
 import com.example.skatespots.models.users.userBasic;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -79,20 +81,21 @@ public class skateController {
                 newSpot.setSpotTypes(types);
             }
         }
-        Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
-        if (loggedInUser.iterator().hasNext()) {
-            LoggedInUser currentuser = loggedInUser.iterator().next();
-            newSpot.setUserBasic(currentuser.getUser());
-            skateSpotDao.save(newSpot);
-            List<SkateSpot> spots = currentuser.getUser().getSpotsSubmitted();
-            spots.add(newSpot);
-            currentuser.getUser().setSpotsSubmitted(spots);
-            return "redirect:spotlist";
-        } else {
-            model.addAttribute("mustlogin", "You must login before submitting a Spot or Park");
-            return "spots/Add-Spot";
+
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic User = userDao.findByUsername(user);
+
+        List<SkateSpot> spots = User.getSpotsSubmitted();
+        spots.add(newSpot);
+        User.setSpotsSubmitted(spots);
+
+        skateSpotDao.save(newSpot);
+
+        return "redirect:spotlist";
         }
-    }
+
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.GET)
     public String editSpotForm(Model model, @PathVariable int spotId){
@@ -251,7 +254,7 @@ public class skateController {
         return "allspots/All-Spots";
     }
 
-   /* @RequestMapping(value = "nearme", method = RequestMethod.POST)
+/*    @RequestMapping(value = "nearme", method = RequestMethod.POST)
     public String processNearMe(Model model){
         return "All-Spots";
     }*/

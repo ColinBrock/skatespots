@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("")
 public class temp {
-
+/*
     @GetMapping("/home")
     public String home() {
-        return "temp/home";
+        return "users/Logged-In";
     }
 
     @GetMapping("/login")
@@ -20,6 +20,6 @@ public class temp {
 
     @GetMapping("/hello")
     public String hello() {
-        return "temp/hello";
-    }
+        return "users/Logged-In";
+    }*/
 }

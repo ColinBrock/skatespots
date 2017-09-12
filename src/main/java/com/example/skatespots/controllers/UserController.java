@@ -6,14 +6,15 @@ import com.example.skatespots.models.users.LoggedInUser;
 import com.example.skatespots.models.users.userBasic;
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,68 +29,23 @@ public class UserController {
         @Autowired
         private UserDao userDao;
 
-        @Autowired
-        private LoggedInUserDao loggedInUserDao;
+    @GetMapping("/login")
+    public String login() {
+        return "users/login";
+    }
 
+    @GetMapping("/")
+    public String hello(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic userBasic = userDao.findByUsername(user);
 
-        @RequestMapping(value ="", method = RequestMethod.GET)
-        public String home(Model model){
+        model.addAttribute("parks", userBasic.getParksSubmitted());
+        model.addAttribute("spots", userBasic.getSpotsSubmitted());
 
-            Iterable<LoggedInUser> loggedIn = loggedInUserDao.findAll();
-                Iterator<LoggedInUser> loggedInUserIterator = loggedIn.iterator();
+        return "users/Home";
+    }
 
-                if (loggedInUserIterator.hasNext()) {
-                    LoggedInUser user = loggedInUserIterator.next();
-                    userBasic userBasic = user.getUser();
-                    model.addAttribute(userBasic);
-                    model.addAttribute("parks",userBasic.getParksSubmitted());
-                    model.addAttribute("spots", userBasic.getSpotsSubmitted());
-                    return "users/Logged-In";
-
-                } else {
-                    return "users/Home";
-                }
-        }
-
-        @RequestMapping(value ="", method = RequestMethod.POST)
-        public String homeLoggedIn(Model model, @RequestParam String username,@RequestParam String password ){
-
-            ArrayList<userBasic> users = new ArrayList<>();
-            Iterator<userBasic> allusers = userDao.findAll().iterator();
-
-            while (allusers.hasNext()) {
-                userBasic user = allusers.next();
-                users.add(user);
-            }
-            for (userBasic user : users) {
-                if (user.getUsername().equals(username)) {
-                    if (user.getPassword().equals(password)) {
-
-                        LoggedInUser loggedInUser = new LoggedInUser(user);
-                        loggedInUserDao.save(loggedInUser);
-                        model.addAttribute(user);
-                        model.addAttribute("parks",user.getParksSubmitted());
-                        model.addAttribute("spots", user.getSpotsSubmitted());
-                        return "users/Logged-In";
-
-                    } else {
-                        model.addAttribute("user", username);
-                        model.addAttribute("password", "This password is incorrect.");
-                        return "users/Home";
-                    }
-                }
-
-            }
-            model.addAttribute("user", username);
-            model.addAttribute("username", "There is no account matching that username");
-            return "users/Home";
-        }
-
-        @RequestMapping(value = "signout", method = RequestMethod.GET)
-        public String userSignOut(){
-            loggedInUserDao.deleteAll();
-            return "redirect:/";
-        }
 
         @RequestMapping(value ="signup", method = RequestMethod.GET)
         public String signUpForm(Model model){
@@ -112,6 +68,7 @@ public class UserController {
                 userBasic user = allusers.next();
                 users.add(user);
             }
+
             for ( userBasic user : users) {
                 if (user.getUsername().equals(userBasic.getUsername())){
                     model.addAttribute("usernametaken", "This username is already taken.");
@@ -122,10 +79,7 @@ public class UserController {
             if (userBasic.getPassword().equals(verify)) {
                 model.addAttribute("userBasic", userBasic);
                 userDao.save(userBasic);
-                LoggedInUser loggedInUser = new LoggedInUser(userBasic);
-                loggedInUserDao.save(loggedInUser);
-                return "users/Logged-In";
-
+                return "redirect:/";
             } else {
                 model.addAttribute("userBasic", userBasic);
                 model.addAttribute("noMatch", "These passwords do not match");
