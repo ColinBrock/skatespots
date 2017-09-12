@@ -1,20 +1,15 @@
 package com.example.skatespots.controllers;
 
-import com.example.skatespots.models.Dao.LoggedInUserDao;
 import com.example.skatespots.models.Dao.UserDao;
-import com.example.skatespots.models.users.LoggedInUser;
 import com.example.skatespots.models.users.userBasic;
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Iterator;

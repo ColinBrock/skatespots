@@ -37,8 +37,6 @@ public class skateController {
     @Autowired
     private SpotTypeDao spotTypeDao;
     @Autowired
-    private LoggedInUserDao loggedInUserDao;
-    @Autowired
     private UserDao userDao;
 
 
@@ -73,28 +71,32 @@ public class skateController {
             model.addAttribute("check", "Must Select a Spot Type");
             return "spots/Add-Spot";
         } else {
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String user = auth.getName();
+            userBasic User = userDao.findByUsername(user);
+
+            newSpot.setUserBasic(User);
+            List<SkateSpot> spots = User.getSpotsSubmitted();
+            spots.add(newSpot);
+            User.setSpotsSubmitted(spots);
+
             List<SpotType> types = new ArrayList<>();
             for (int spotType : spotTypes) {
                 SpotType spot = spotTypeDao.findOne(spotType);
                 spot.addItem(newSpot);
                 types.add(spot);
-                newSpot.setSpotTypes(types);
+                //spotTypeDao.save(spot);
             }
+
+            //newSpot.setSpotTypes(types);
+            skateSpotDao.save(newSpot);
+
+            userDao.save(User);
+
+            return "redirect:spotlist";
         }
-
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String user = auth.getName();
-        userBasic User = userDao.findByUsername(user);
-
-        List<SkateSpot> spots = User.getSpotsSubmitted();
-        spots.add(newSpot);
-        User.setSpotsSubmitted(spots);
-
-        skateSpotDao.save(newSpot);
-
-        return "redirect:spotlist";
-        }
+    }
 
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.GET)
@@ -149,21 +151,18 @@ public class skateController {
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }
-        Iterable<LoggedInUser> loggedInUser = loggedInUserDao.findAll();
 
-        if (loggedInUser.iterator().hasNext()) {
-            LoggedInUser currentuser = loggedInUser.iterator().next();
-            newPark.setUserBasic(currentuser.getUser());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic User = userDao.findByUsername(user);
+
+        newPark.setUserBasic(User);
             skateParkDao.save(newPark);
-            userBasic user = userDao.findOne(currentuser.getUser().getId());
-            List<SkatePark> parks = user.getParksSubmitted();
+        List<SkatePark> parks = User.getParksSubmitted();
             parks.add(newPark);
-            user.setParksSubmitted(parks);
-            userDao.save(user);
-        } else {
-            model.addAttribute("mustlogin", "You must login before submitting a Spot or Park");
-            return "parks/Add-Park";
-        }
+        User.setParksSubmitted(parks);
+        userDao.save(User);
+
         return "redirect:/parklist";
     }
 
@@ -208,13 +207,15 @@ public class skateController {
         int i = types.lastIndexOf("-");
         types.deleteCharAt(i);
 
-        Iterator<LoggedInUser> loggedin = loggedInUserDao.findAll().iterator();
-        if (loggedin.hasNext()) {
-            userBasic user = loggedin.next().getUser();
-            if (user == aSpot.getUserBasic()) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic User = userDao.findByUsername(user);
+
+        if (User == aSpot.getUserBasic()) {
                 model.addAttribute("delete", "delete");
             }
-        }
+
 
         model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
@@ -226,13 +227,15 @@ public class skateController {
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);
 
-        Iterator<LoggedInUser> loggedin = loggedInUserDao.findAll().iterator();
-        if (loggedin.hasNext()) {
-            userBasic user = loggedin.next().getUser();
-            if (user == aPark.getUserBasic()) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic User = userDao.findByUsername(user);
+
+        if (User == aPark.getUserBasic()) {
                 model.addAttribute("delete", "delete");
             }
-        }
+
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());
         return "parks/Park-Detail";
