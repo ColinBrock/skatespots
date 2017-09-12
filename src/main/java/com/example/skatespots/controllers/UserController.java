@@ -43,7 +43,7 @@ public class UserController {
         model.addAttribute("parks", userBasic.getParksSubmitted());
         model.addAttribute("spots", userBasic.getSpotsSubmitted());
 
-        return "users/Home";
+        return "users/Homepage";
     }
 
 
