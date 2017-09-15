@@ -28,7 +28,10 @@
 
     <tr>
         <th> Address </th>
-        <td th:text="*{address}"></td>
+        <td>
+            <a th:href="@{'http://www.maps.google.com/?q=' + ${aSpot.address}}" th:text="*{address}"
+               th:target="_blank"></a>
+        </td>
     </tr>
     <tr>
         <th>Security</th>
@@ -50,7 +53,8 @@
     <img class=".img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
     <br/>
     <br/>
-    <a th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn btn-default btn-md active" role="button">Remove This image</a>
+    <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn btn-default btn-md active" role="button">Remove
+        This image</a>
 </div>
 <br/>
 <div id="map" style="width:60%;height:300px;"></div>
@@ -81,10 +85,13 @@
 </script>
 
 <br/>
-<a th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit This Spot</a>
+<a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit
+    This Spot</a>
 <br/>
 <br/>
 <a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn btn-default btn-md active"
    role="button" onclick="return confirm('Are you sure?')">Delete This Spot</a>
+<br/>
+<br/>
 </body>
 </html>

@@ -16,10 +16,12 @@
         <th> Description </th>
         <td th:text="*{description}"></td>
     </tr>
-
     <tr>
         <th> Address </th>
-        <td th:text="*{address}"></td>
+        <td>
+            <a th:href="@{'http://www.maps.google.com/?q=' + ${aPark.address}}" th:text="*{address}"
+               th:target="_blank"></a>
+        </td>
     </tr>
     <tr>
         <th>Helmet</th>
@@ -48,7 +50,8 @@
     <img th:src="'http://localhost:8080/files/' + ${aPark.imgpath}"/>
     <br/>
     <br/>
-    <a th:href="@{'/remove/park/' + ${aPark.Id}}" class="btn btn-default btn-md active" role="button" >Remove This image</a>
+    <a th:if="${delete}" th:href="@{'/remove/park/' + ${aPark.Id}}" class="btn btn-default btn-md active" role="button">Remove
+        This image</a>
 </div>
 <br/>
 <div id="map" style="width:60%;height:300px;"></div>
@@ -78,11 +81,13 @@
 </script>
 
 <br/>
-<a th:href="@{'/edit/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Edit This Park</a>
+<a th:if="${delete}" th:href="@{'/edit/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Edit
+    This Park</a>
 <br/>
 <br/>
 <a th:if="${delete}" th:href="@{'/delete/park/' + ${parkId}}" class="btn btn-default btn-md active"
    role="button" onclick="return confirm('Are you sure?')">Delete This Park</a>
-
+<br/>
+<br/>
 </body>
 </html>
