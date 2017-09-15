@@ -41,7 +41,6 @@ public class UserController {
         return "users/Homepage";
     }
 
-
         @RequestMapping(value ="signup", method = RequestMethod.GET)
         public String signUpForm(Model model){
             model.addAttribute(new userBasic());

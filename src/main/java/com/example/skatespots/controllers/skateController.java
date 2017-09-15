@@ -81,23 +81,15 @@ public class skateController {
             spots.add(newSpot);
             User.setSpotsSubmitted(spots);
 
-            List<SpotType> types = new ArrayList<>();
             for (int spotType : spotTypes) {
                 SpotType spot = spotTypeDao.findOne(spotType);
                 spot.addItem(newSpot);
-                types.add(spot);
-                //spotTypeDao.save(spot);
             }
-
-            //newSpot.setSpotTypes(types);
             skateSpotDao.save(newSpot);
-
             userDao.save(User);
-
             return "redirect:spotlist";
         }
     }
-
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.GET)
     public String editSpotForm(Model model, @PathVariable int spotId){
@@ -118,19 +110,17 @@ public class skateController {
             model.addAttribute("check", "Must Select a Spot Type");
             return "spots/Add-Spot";
         } else {
-            List<SpotType> types = new ArrayList<>();
             for (int spotType : spotTypes) {
                 SpotType spot = spotTypeDao.findOne(spotType);
                 spot.addItem(newSpot);
-                types.add(spot);
-                newSpot.setSpotTypes(types);
             }
+
+            newSpot.setUserBasic(skateSpotDao.findOne(spotId).getUserBasic());
+            newSpot.setImgpath(skateSpotDao.findOne(spotId).getImgpath());
+            skateSpotDao.save(newSpot);
+            skateSpotDao.delete(spotId);
+            return "redirect:/spotlist";
         }
-        newSpot.setUserBasic(skateSpotDao.findOne(spotId).getUserBasic());
-        newSpot.setImgpath(skateSpotDao.findOne(spotId).getImgpath());
-        skateSpotDao.save(newSpot);
-        skateSpotDao.delete(spotId);
-        return  "redirect:/spotlist";
     }
 
     @RequestMapping(value = "delete/spot/{spotId}", method = RequestMethod.GET)
@@ -157,9 +147,9 @@ public class skateController {
         userBasic User = userDao.findByUsername(user);
 
         newPark.setUserBasic(User);
-            skateParkDao.save(newPark);
+        skateParkDao.save(newPark);
         List<SkatePark> parks = User.getParksSubmitted();
-            parks.add(newPark);
+        parks.add(newPark);
         User.setParksSubmitted(parks);
         userDao.save(User);
 
@@ -216,7 +206,6 @@ public class skateController {
                 model.addAttribute("delete", "delete");
             }
 
-
         model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
         model.addAttribute("address", aSpot.getAddress());
@@ -226,7 +215,6 @@ public class skateController {
     @RequestMapping(value = "park/{parkId}", method = RequestMethod.GET)
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);
-
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = auth.getName();

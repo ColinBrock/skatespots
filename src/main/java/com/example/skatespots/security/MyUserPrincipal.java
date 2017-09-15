@@ -3,6 +3,7 @@ package com.example.skatespots.security;
 import com.example.skatespots.models.users.userBasic;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
 
@@ -25,6 +26,9 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
         return user.getPassword();
     }
 
