@@ -232,22 +232,51 @@ public class skateController {
     @RequestMapping(value = "nearme", method = RequestMethod.GET)
     public String nearMe(Model model) {
 
-        ArrayList<SkateSpot> spots = new ArrayList<>();
-
-        Iterator<SkateSpot> allspots = skateSpotDao.findAll().iterator();
-        while (allspots.hasNext()) {
-            SkateSpot spot = allspots.next();
-            SkateSpot skatespot = new SkateSpot(spot.getName(), spot.getDescription(), spot.getAddress());
-            spots.add(skatespot);
-        }
-
-        model.addAttribute("spots", spots);
-        return "allspots/All-Spots";
+        return "allspots/All-Spots-Form";
     }
 
-/*    @RequestMapping(value = "nearme", method = RequestMethod.POST)
-    public String processNearMe(Model model){
-        return "All-Spots";
-    }*/
+
+    @RequestMapping(value = "nearme", method = RequestMethod.POST)
+    public String processNearMe(Model model, String type) {
+
+        ArrayList<String> locations = new ArrayList<>();
+
+        if (type.equals("spot")) {
+
+            Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
+            while (spots.hasNext()) {
+                String address = spots.next().getAddress();
+                locations.add(address);
+            }
+            model.addAttribute("locations", locations);
+            return "allspots/All-Spots";
+
+        } else if (type.equals("park")) {
+
+            Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
+            while (parks.hasNext()) {
+                String address = parks.next().getAddress();
+                locations.add(address);
+            }
+            model.addAttribute("locations", locations);
+            return "allspots/All-Spots";
+
+        } else {
+
+            Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
+            while (spots.hasNext()) {
+                String address = spots.next().getAddress();
+                locations.add(address);
+            }
+            Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
+            while (parks.hasNext()) {
+                String address = parks.next().getAddress();
+                locations.add(address);
+            }
+            model.addAttribute("locations", locations);
+            return "allspots/All-Spots";
+        }
+    }
+
 
 }
