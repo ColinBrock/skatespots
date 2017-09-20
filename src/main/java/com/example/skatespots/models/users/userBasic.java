@@ -37,7 +37,7 @@ public class userBasic {
 
 
     @OneToMany
-    @JoinColumn(name = "user_basic_id")
+    @JoinColumn(name = "user_id")
     private List<Comment> comments = new ArrayList<>();
 
 

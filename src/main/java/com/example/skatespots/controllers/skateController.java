@@ -4,6 +4,7 @@ import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
+import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,8 @@ public class skateController {
     private SpotTypeDao spotTypeDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    CommentDao commentDao;
 
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
@@ -207,7 +210,42 @@ public class skateController {
         return "spots/Spot-Detail";
     }
 
-    
+    @RequestMapping(value = "spot/{spotId}", method = RequestMethod.POST)
+    public String processSpotComment(Model model, @PathVariable int spotId, String comment) {
+
+        SkateSpot aSpot = skateSpotDao.findOne(spotId);
+
+        List<SpotType> spottypes = aSpot.getSpotTypes();
+        StringBuilder types = new StringBuilder();
+        for (SpotType type : spottypes) {
+            types.append(type.getName());
+            types.append(" - ");
+        }
+        int i = types.lastIndexOf("-");
+        types.deleteCharAt(i);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic User = userDao.findByUsername(user);
+
+        Comment com = new Comment(comment, User);
+        com.setSpot(aSpot);
+        commentDao.save(com);
+
+
+        List<Comment> coms = aSpot.getComments();
+        coms.add(com);
+
+        if (User == aSpot.getUserBasic()) {
+            model.addAttribute("delete", "delete");
+        }
+
+        model.addAttribute("types", types);
+        model.addAttribute("aSpot", aSpot);
+        model.addAttribute("address", aSpot.getAddress());
+        return "spots/Spot-Detail";
+    }
+
     @RequestMapping(value = "park/{parkId}", method = RequestMethod.GET)
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);
@@ -219,6 +257,31 @@ public class skateController {
         if (User == aPark.getUserBasic()) {
                 model.addAttribute("delete", "delete");
             }
+
+        model.addAttribute("aPark", aPark);
+        model.addAttribute("address", aPark.getAddress());
+        return "parks/Park-Detail";
+    }
+
+    @RequestMapping(value = "park/{parkId}", method = RequestMethod.POST)
+    public String processParkComment(Model model, @PathVariable int parkId, String comment) {
+        SkatePark aPark = skateParkDao.findOne(parkId);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        userBasic User = userDao.findByUsername(user);
+
+        Comment com = new Comment(comment, User);
+        com.setPark(aPark);
+        commentDao.save(com);
+
+
+        List<Comment> coms = aPark.getComments();
+        coms.add(com);
+
+        if (User == aPark.getUserBasic()) {
+            model.addAttribute("delete", "delete");
+        }
 
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());

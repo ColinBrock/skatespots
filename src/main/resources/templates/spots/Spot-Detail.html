@@ -84,6 +84,13 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;callback=initMap">
 </script>
 
+
+<form method="post">
+    <textarea row="4" cols="50" name="comment"></textarea>
+    <input type="submit"/>
+</form>
+
+
 <br/>
 <a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit
     This Spot</a>

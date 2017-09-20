@@ -1,14 +1,13 @@
 package com.example.skatespots.models.SkateSpot;
 
 
+import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by chris on 6/14/17.
@@ -50,7 +49,8 @@ public class SkatePark {
 
     private String hours;
 
-
+    @OneToMany(mappedBy = "park")
+    private List<Comment> comments;
 
 
     public SkatePark(){
@@ -152,5 +152,13 @@ public class SkatePark {
 
     public void setUserBasic(com.example.skatespots.models.users.userBasic userBasic) {
         this.userBasic = userBasic;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

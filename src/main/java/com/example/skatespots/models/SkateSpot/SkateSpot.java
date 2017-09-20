@@ -44,7 +44,7 @@ public class SkateSpot {
     @ManyToOne
     private userBasic userBasic;
 
-
+    @OneToMany(mappedBy = "spot")
     private List<Comment> comments;
 
 

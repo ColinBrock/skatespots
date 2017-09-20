@@ -5,17 +5,26 @@ import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.users.userBasic;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Comment {
 
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @NotNull
     private String comment;
 
+    @ManyToOne
     private userBasic user;
 
+    @ManyToOne
     private SkateSpot spot;
 
+    @ManyToOne
     private SkatePark park;
 
     public Comment() {
@@ -24,6 +33,14 @@ public class Comment {
     public Comment(String comment, userBasic user) {
         this.comment = comment;
         this.user = user;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getComment() {
