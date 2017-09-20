@@ -1,6 +1,7 @@
 package com.example.skatespots.models.SkateSpot;
 
 import com.example.skatespots.models.SpotType.SpotType;
+import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
 
 import javax.persistence.*;
@@ -42,6 +43,10 @@ public class SkateSpot {
 
     @ManyToOne
     private userBasic userBasic;
+
+
+    private List<Comment> comments;
+
 
     public SkateSpot() {}
 
@@ -113,6 +118,14 @@ public class SkateSpot {
 
     public void setUserBasic(com.example.skatespots.models.users.userBasic userBasic) {
         this.userBasic = userBasic;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
 

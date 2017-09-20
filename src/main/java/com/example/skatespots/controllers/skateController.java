@@ -4,9 +4,7 @@ import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
-import com.example.skatespots.models.users.LoggedInUser;
 import com.example.skatespots.models.users.userBasic;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,12 +14,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.thymeleaf.util.StringUtils.concat;
 
 /**
  * Created by chris on 5/23/17.
@@ -212,6 +207,7 @@ public class skateController {
         return "spots/Spot-Detail";
     }
 
+    
     @RequestMapping(value = "park/{parkId}", method = RequestMethod.GET)
     public String parkDetail(Model model, @PathVariable int parkId){
         SkatePark aPark = skateParkDao.findOne(parkId);

@@ -2,6 +2,7 @@ package com.example.skatespots.models.users;
 
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
+import com.example.skatespots.models.comment.Comment;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -33,6 +34,12 @@ public class userBasic {
     @OneToMany
     @JoinColumn(name = "user_basic_id")
     private List<SkatePark> parksSubmitted = new ArrayList<>();
+
+
+    @OneToMany
+    @JoinColumn(name = "user_basic_id")
+    private List<Comment> comments = new ArrayList<>();
+
 
     public userBasic(){}
 
@@ -74,5 +81,13 @@ public class userBasic {
 
     public void setParksSubmitted(List<SkatePark> parksSubmitted) {
         this.parksSubmitted = parksSubmitted;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
