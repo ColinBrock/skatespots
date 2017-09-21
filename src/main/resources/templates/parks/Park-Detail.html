@@ -51,7 +51,7 @@
     <br/>
     <br/>
     <a th:if="${delete}" th:href="@{'/remove/park/' + ${aPark.Id}}" class="btn btn-default btn-md active" role="button">Remove
-        This image</a>
+        your image</a>
 </div>
 <br/>
 <div id="map" style="width:60%;height:300px;"></div>
@@ -80,10 +80,22 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;callback=initMap">
 </script>
 
+<br/>
+<br/>
 <form method="post">
-    <textarea row="4" cols="50" name="comment"></textarea>
+    <label for="comment">Add a comment</label>
+    <br/>
+    <textarea row="6" cols="50" name="comment" id="comment"></textarea>
     <input type="submit"/>
 </form>
+
+<h4>Comments</h4>
+<table th:if="${comments}" class="table">
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.user.username}"></td>
+        <td th:text="${comment.comment}"></td>
+    </tr>
+</table>
 
 <br/>
 <a th:if="${delete}" th:href="@{'/edit/park/' + ${parkId}}" class="btn btn-default btn-md active" role="button">Edit

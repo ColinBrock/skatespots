@@ -204,6 +204,10 @@ public class skateController {
                 model.addAttribute("delete", "delete");
             }
 
+        if (aSpot.getComments() != null) {
+            model.addAttribute("comments", aSpot.getComments());
+        }
+
         model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
         model.addAttribute("address", aSpot.getAddress());
@@ -232,18 +236,20 @@ public class skateController {
         com.setSpot(aSpot);
         commentDao.save(com);
 
-
         List<Comment> coms = aSpot.getComments();
         coms.add(com);
 
         if (User == aSpot.getUserBasic()) {
             model.addAttribute("delete", "delete");
         }
+        if (aSpot.getComments() != null) {
+            model.addAttribute("comments", coms);
+        }
 
         model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
         model.addAttribute("address", aSpot.getAddress());
-        return "spots/Spot-Detail";
+        return "redirect:{spotId}";
     }
 
     @RequestMapping(value = "park/{parkId}", method = RequestMethod.GET)
@@ -257,6 +263,10 @@ public class skateController {
         if (User == aPark.getUserBasic()) {
                 model.addAttribute("delete", "delete");
             }
+
+        if (aPark.getComments() != null) {
+            model.addAttribute("comments", aPark.getComments());
+        }
 
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());
@@ -282,10 +292,13 @@ public class skateController {
         if (User == aPark.getUserBasic()) {
             model.addAttribute("delete", "delete");
         }
+        if (aPark.getComments() != null) {
+            model.addAttribute("comments", aPark.getComments());
+        }
 
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());
-        return "parks/Park-Detail";
+        return "redirect:{parkId}";
     }
 
     @RequestMapping(value = "nearme", method = RequestMethod.GET)
