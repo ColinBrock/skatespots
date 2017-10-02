@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("")
-public class skateController {
+public class SkateSpotController {
 
     @Autowired
     private SkateSpotDao skateSpotDao;
@@ -35,19 +35,13 @@ public class skateController {
     @Autowired
     private UserDao userDao;
     @Autowired
-    CommentDao commentDao;
+    private CommentDao commentDao;
 
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
         model.addAttribute("spots", skateSpotDao.findAll());
         return "spots/Spot-List";
-    }
-
-    @RequestMapping(value = "parklist", method = RequestMethod.GET)
-    public String parksLists(Model model) {
-        model.addAttribute("parks", skateParkDao.findAll());
-        return "parks/Park-List";
     }
 
     @RequestMapping(value = "addspot", method = RequestMethod.GET)
@@ -127,60 +121,6 @@ public class skateController {
         return "redirect:/spotlist";
     }
 
-    @RequestMapping(value = "addpark", method = RequestMethod.GET)
-    public String displayAddParkForm(Model model) {
-        model.addAttribute(new SkatePark());
-        return "parks/Add-Park";
-    }
-
-    @RequestMapping(value = "addpark", method = RequestMethod.POST)
-    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, Model model) {
-
-        if (errors.hasErrors()) {
-            return "parks/Add-Park";
-        }
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String user = auth.getName();
-        userBasic User = userDao.findByUsername(user);
-
-        newPark.setUserBasic(User);
-        skateParkDao.save(newPark);
-        List<SkatePark> parks = User.getParksSubmitted();
-        parks.add(newPark);
-        User.setParksSubmitted(parks);
-        userDao.save(User);
-
-        return "redirect:/parklist";
-    }
-
-    @RequestMapping(value = "edit/park/{parkId}", method = RequestMethod.GET)
-    public String editParkForm(Model model, @PathVariable int parkId){
-        SkatePark skatePark = skateParkDao.findOne(parkId);
-        model.addAttribute(skatePark);
-        return "parks/Add-Park";
-    }
-
-    @RequestMapping(value = "edit/park/{parkId}", method = RequestMethod.POST)
-    public String processEditParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, @PathVariable int parkId) {
-
-        if (errors.hasErrors()) {
-            return "parks/Add-Park";
-        }
-
-        newPark.setUserBasic(skateParkDao.findOne(parkId).getUserBasic());
-        newPark.setImgpath(skateParkDao.findOne(parkId).getImgpath());
-        skateParkDao.save(newPark);
-        skateParkDao.delete(parkId);
-        return  "redirect:/parklist";
-    }
-
-    @RequestMapping(value = "delete/park/{parkId}", method = RequestMethod.GET)
-    public String deletePark(Model model, @PathVariable int parkId) {
-        skateParkDao.delete(parkId);
-        return "redirect:/parklist";
-    }
-
 
     @RequestMapping(value = "spot/{spotId}", method = RequestMethod.GET)
     public String spotDetail(Model model, @PathVariable int spotId){
@@ -202,6 +142,7 @@ public class skateController {
 
         if (User == aSpot.getUserBasic()) {
                 model.addAttribute("delete", "delete");
+            model.addAttribute("deletecomment", "deletecomment");
             }
 
         if (aSpot.getComments() != null) {
@@ -251,104 +192,5 @@ public class skateController {
         model.addAttribute("address", aSpot.getAddress());
         return "redirect:{spotId}";
     }
-
-    @RequestMapping(value = "park/{parkId}", method = RequestMethod.GET)
-    public String parkDetail(Model model, @PathVariable int parkId){
-        SkatePark aPark = skateParkDao.findOne(parkId);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String user = auth.getName();
-        userBasic User = userDao.findByUsername(user);
-
-        if (User == aPark.getUserBasic()) {
-                model.addAttribute("delete", "delete");
-            }
-
-        if (aPark.getComments() != null) {
-            model.addAttribute("comments", aPark.getComments());
-        }
-
-        model.addAttribute("aPark", aPark);
-        model.addAttribute("address", aPark.getAddress());
-        return "parks/Park-Detail";
-    }
-
-    @RequestMapping(value = "park/{parkId}", method = RequestMethod.POST)
-    public String processParkComment(Model model, @PathVariable int parkId, String comment) {
-        SkatePark aPark = skateParkDao.findOne(parkId);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String user = auth.getName();
-        userBasic User = userDao.findByUsername(user);
-
-        Comment com = new Comment(comment, User);
-        com.setPark(aPark);
-        commentDao.save(com);
-
-
-        List<Comment> coms = aPark.getComments();
-        coms.add(com);
-
-        if (User == aPark.getUserBasic()) {
-            model.addAttribute("delete", "delete");
-        }
-        if (aPark.getComments() != null) {
-            model.addAttribute("comments", aPark.getComments());
-        }
-
-        model.addAttribute("aPark", aPark);
-        model.addAttribute("address", aPark.getAddress());
-        return "redirect:{parkId}";
-    }
-
-    @RequestMapping(value = "nearme", method = RequestMethod.GET)
-    public String nearMe(Model model) {
-
-        return "allspots/All-Spots-Form";
-    }
-
-
-    @RequestMapping(value = "nearme", method = RequestMethod.POST)
-    public String processNearMe(Model model, String type) {
-
-        ArrayList<String> locations = new ArrayList<>();
-
-        if (type.equals("spot")) {
-
-            Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
-            while (spots.hasNext()) {
-                String address = spots.next().getAddress();
-                locations.add(address);
-            }
-            model.addAttribute("locations", locations);
-            return "allspots/All-Spots";
-
-        } else if (type.equals("park")) {
-
-            Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
-            while (parks.hasNext()) {
-                String address = parks.next().getAddress();
-                locations.add(address);
-            }
-            model.addAttribute("locations", locations);
-            return "allspots/All-Spots";
-
-        } else {
-
-            Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
-            while (spots.hasNext()) {
-                String address = spots.next().getAddress();
-                locations.add(address);
-            }
-            Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
-            while (parks.hasNext()) {
-                String address = parks.next().getAddress();
-                locations.add(address);
-            }
-            model.addAttribute("locations", locations);
-            return "allspots/All-Spots";
-        }
-    }
-
 
 }
