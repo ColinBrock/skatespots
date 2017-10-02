@@ -7,6 +7,7 @@ import com.example.skatespots.models.SpotType.SpotType;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -162,6 +163,7 @@ public class SkateSpotController {
             model.addAttribute("comments", aSpot.getComments());
         }
 
+        model.addAttribute("user", User.getUsername());
         model.addAttribute("types", types);
         model.addAttribute("aSpot", aSpot);
         model.addAttribute("address", aSpot.getAddress());
@@ -169,40 +171,28 @@ public class SkateSpotController {
     }
 
     @RequestMapping(value = "spot/{spotId}", method = RequestMethod.POST)
-    public String processSpotComment(Model model, @PathVariable int spotId, String comment) {
+    public String processSpotComment(Model model, @PathVariable int spotId, String comment, @RequestParam(required = false) Integer deletecom) {
+
 
         SkateSpot aSpot = skateSpotDao.findOne(spotId);
-
-        List<SpotType> spottypes = aSpot.getSpotTypes();
-        StringBuilder types = new StringBuilder();
-        for (SpotType type : spottypes) {
-            types.append(type.getName());
-            types.append(" - ");
-        }
-        int i = types.lastIndexOf("-");
-        types.deleteCharAt(i);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = auth.getName();
         userBasic User = userDao.findByUsername(user);
 
-        Comment com = new Comment(comment, User);
-        com.setSpot(aSpot);
-        commentDao.save(com);
+        if (comment != null) {
+            Comment com = new Comment(comment, User);
+            com.setSpot(aSpot);
+            commentDao.save(com);
 
-        List<Comment> coms = aSpot.getComments();
-        coms.add(com);
+            List<Comment> coms = aSpot.getComments();
+            coms.add(com);
 
-        if (User == aSpot.getUserBasic()) {
-            model.addAttribute("delete", "delete");
-        }
-        if (aSpot.getComments() != null) {
-            model.addAttribute("comments", coms);
         }
 
-        model.addAttribute("types", types);
-        model.addAttribute("aSpot", aSpot);
-        model.addAttribute("address", aSpot.getAddress());
+        if (deletecom != null) {
+            commentDao.delete(deletecom);
+        }
         return "redirect:{spotId}";
     }
 

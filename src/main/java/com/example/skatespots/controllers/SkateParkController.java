@@ -2,6 +2,7 @@ package com.example.skatespots.controllers;
 
 import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
+import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -122,36 +120,34 @@ public class SkateParkController {
             model.addAttribute("comments", aPark.getComments());
         }
 
+        model.addAttribute("user", User.getUsername());
         model.addAttribute("aPark", aPark);
         model.addAttribute("address", aPark.getAddress());
         return "parks/Park-Detail";
     }
 
     @RequestMapping(value = "park/{parkId}", method = RequestMethod.POST)
-    public String processParkComment(Model model, @PathVariable int parkId, String comment) {
+    public String processParkComment(Model model, @PathVariable int parkId, String comment, @RequestParam(required = false) Integer deletecom) {
         SkatePark aPark = skateParkDao.findOne(parkId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = auth.getName();
         userBasic User = userDao.findByUsername(user);
 
-        Comment com = new Comment(comment, User);
-        com.setPark(aPark);
-        commentDao.save(com);
+        if (comment != null) {
 
+            Comment com = new Comment(comment, User);
+            com.setPark(aPark);
+            commentDao.save(com);
 
-        List<Comment> coms = aPark.getComments();
-        coms.add(com);
-
-        if (User == aPark.getUserBasic()) {
-            model.addAttribute("delete", "delete");
-        }
-        if (aPark.getComments() != null) {
-            model.addAttribute("comments", aPark.getComments());
+            List<Comment> coms = aPark.getComments();
+            coms.add(com);
         }
 
-        model.addAttribute("aPark", aPark);
-        model.addAttribute("address", aPark.getAddress());
+        if (deletecom != null) {
+            commentDao.delete(deletecom);
+        }
+
         return "redirect:{parkId}";
     }
 

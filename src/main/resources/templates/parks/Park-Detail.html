@@ -94,6 +94,12 @@
     <tr th:each="comment : ${comments}">
         <td th:text="${comment.user.username}"></td>
         <td th:text="${comment.comment}"></td>
+        <td>
+            <form th:if="${comment.user.username == user}" method="post">
+                <input type="hidden" name="deletecom" th:value="${comment.id}"/>
+                <input type="submit" value="delete" onclick="return confirm('Are you sure?')"/>
+            </form>
+        </td>
     </tr>
 </table>
 
