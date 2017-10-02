@@ -107,9 +107,23 @@ public class SkateSpotController {
                 spot.addItem(newSpot);
             }
 
+            SkateSpot spot = skateSpotDao.findOne(spotId);
+            List<Comment> comments = spot.getComments();
+
+            if (comments != null) {
+                newSpot.setComments(comments);
+                spot.setComments(null);
+            }
+
             newSpot.setUserBasic(skateSpotDao.findOne(spotId).getUserBasic());
             newSpot.setImgpath(skateSpotDao.findOne(spotId).getImgpath());
+
             skateSpotDao.save(newSpot);
+            for (Comment comment : comments) {
+                comment.setSpot(newSpot);
+            }
+
+            commentDao.save(comments);
             skateSpotDao.delete(spotId);
             return "redirect:/spotlist";
         }
@@ -142,7 +156,6 @@ public class SkateSpotController {
 
         if (User == aSpot.getUserBasic()) {
                 model.addAttribute("delete", "delete");
-            model.addAttribute("deletecomment", "deletecomment");
             }
 
         if (aSpot.getComments() != null) {

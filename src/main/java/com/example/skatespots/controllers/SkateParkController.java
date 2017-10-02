@@ -79,10 +79,23 @@ public class SkateParkController {
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }
+        SkatePark park = skateParkDao.findOne(parkId);
+        List<Comment> comments = park.getComments();
+
+        if (comments != null) {
+            newPark.setComments(comments);
+            park.setComments(null);
+        }
 
         newPark.setUserBasic(skateParkDao.findOne(parkId).getUserBasic());
         newPark.setImgpath(skateParkDao.findOne(parkId).getImgpath());
         skateParkDao.save(newPark);
+
+        for (Comment comment : comments) {
+            comment.setPark(newPark);
+        }
+        commentDao.save(comments);
+
         skateParkDao.delete(parkId);
         return "redirect:/parklist";
     }
