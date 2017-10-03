@@ -9,10 +9,13 @@
 <div>
     <form method="POST" style="max-width:400px;">
         <div class="form-group">
-            <label>Current Location</label>
+            <label>Location</label>
             <input class="form-control" type="text" name="location"/>
+            <h5> Or </h5>
+            <button type="button" id="currentlocation">Use current location</button>
         </div>
         <div class="form-group">
+            <label>Search For</label>
             <select name="type">
                 <option value="spot">Spots</option>
                 <option value="park">Parks</option>
@@ -33,6 +36,38 @@
 
     </form>
 </div>
+
+
+<div id="startLat"></div>
+<div id="startLon"></div>
+
+
+<script th:inline="javascript">
+  document.getElementById("currentlocation").onclick = function() {
+  var startPos;
+  var geoOptions = {
+    enableHighAccuracy: true
+  }
+
+  var geoSuccess = function(position) {
+    startPos = position;
+    document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+    document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+  };
+  var geoError = function(error) {
+    console.log('Error occurred. Error code: ' + error.code);
+    // error.code can be:
+    //   0: unknown error
+    //   1: permission denied
+    //   2: position unavailable (error response from location provider)
+    //   3: timed out
+  };
+
+  navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+};
+
+
+</script>
 
 </body>
 </html>
