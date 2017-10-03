@@ -35,7 +35,7 @@ public class NearMeController {
 
 
     @RequestMapping(value = "nearme", method = RequestMethod.POST)
-    public String processNearMe(Model model, String type) {
+    public String processNearMe(Model model, String type, String location) {
 
         ArrayList<String> locations = new ArrayList<>();
 

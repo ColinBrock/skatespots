@@ -14,15 +14,19 @@
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
         var locations = /*[[${locations}]]*/
+
         for (var i=0; i < locations.length; i++){
         geocoder.geocode({'address': locations[i]}, function(results, status) {
           if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
             map.setCenter({lat: 38.655602, lng: -90.301732});
+
+
             new google.maps.Marker({
               map: map,
               position: results[0].geometry.location
             });
+
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
                 status);
@@ -33,8 +37,10 @@
     /*]]>*/
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;callback=initMap">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;libraries=geometry&amp;callback=initMap">
 </script>
+
+
 </body>
 </html>
 

@@ -10,7 +10,8 @@
     <form method="POST" style="max-width:400px;">
         <div class="form-group">
             <label>Location</label>
-            <input class="form-control" type="text" name="location"/>
+            <input class="form-control" type="text" value="" id="location" name="location"/>
+            <input type="hidden" value="" id="hidden"/>
             <h5> Or </h5>
             <button type="button" id="currentlocation">Use current location</button>
         </div>
@@ -51,9 +52,10 @@
 
   var geoSuccess = function(position) {
     startPos = position;
-    document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-    document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+    var x = startPos.coords.latitude.toString() + ', ' + startPos.coords.longitude.toString();
+    document.getElementById('location').setAttribute("value", x);
   };
+
   var geoError = function(error) {
     console.log('Error occurred. Error code: ' + error.code);
     // error.code can be:
@@ -68,6 +70,7 @@
 
 
 </script>
+
 
 </body>
 </html>
