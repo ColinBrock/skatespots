@@ -11,7 +11,7 @@
         <div class="form-group">
             <label>Location</label>
             <input class="form-control" type="text" value="" id="location" name="location"/>
-            <input type="hidden" value="" id="hidden"/>
+            <input type="hidden" value="" id="hidden" name="hidden"/>
             <h5> Or </h5>
             <button type="button" id="currentlocation">Use current location</button>
         </div>
@@ -39,10 +39,6 @@
 </div>
 
 
-<div id="startLat"></div>
-<div id="startLon"></div>
-
-
 <script th:inline="javascript">
   document.getElementById("currentlocation").onclick = function() {
   var startPos;
@@ -52,8 +48,10 @@
 
   var geoSuccess = function(position) {
     startPos = position;
-    var x = startPos.coords.latitude.toString() + ', ' + startPos.coords.longitude.toString();
-    document.getElementById('location').setAttribute("value", x);
+    var lonlat = startPos.coords.latitude.toString() + ', ' + startPos.coords.longitude.toString();
+    document.getElementById('location').setAttribute("value", "Current Location");
+    document.getElementById('hidden').setAttribute("value", lonlat);
+
   };
 
   var geoError = function(error) {

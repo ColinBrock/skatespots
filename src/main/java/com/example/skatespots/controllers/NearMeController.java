@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -35,9 +36,19 @@ public class NearMeController {
 
 
     @RequestMapping(value = "nearme", method = RequestMethod.POST)
-    public String processNearMe(Model model, String type, String location) {
+    public String processNearMe(Model model, String type, String hidden) {
 
         ArrayList<String> locations = new ArrayList<>();
+
+        String[] locs = hidden.split(",");
+        String lat = locs[0];
+        String lon = locs[1];
+        float latt = Float.parseFloat(lat);
+        float lonn = Float.parseFloat(lon);
+        float[] location = new float[2];
+        location = new float[]{latt, lonn};
+
+
 
         if (type.equals("spot")) {
 
@@ -46,6 +57,7 @@ public class NearMeController {
                 String address = spots.next().getAddress();
                 locations.add(address);
             }
+            model.addAttribute("location", location);
             model.addAttribute("locations", locations);
             return "allspots/All-Spots";
 
@@ -56,6 +68,8 @@ public class NearMeController {
                 String address = parks.next().getAddress();
                 locations.add(address);
             }
+
+            model.addAttribute("location", location);
             model.addAttribute("locations", locations);
             return "allspots/All-Spots";
 
@@ -71,6 +85,8 @@ public class NearMeController {
                 String address = parks.next().getAddress();
                 locations.add(address);
             }
+
+            model.addAttribute("location", location);
             model.addAttribute("locations", locations);
             return "allspots/All-Spots";
         }

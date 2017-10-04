@@ -14,13 +14,13 @@
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
         var locations = /*[[${locations}]]*/
+        var location = /*[[${location}]]*/
+
 
         for (var i=0; i < locations.length; i++){
         geocoder.geocode({'address': locations[i]}, function(results, status) {
           if (status === 'OK') {
-            map.setCenter(results[0].geometry.location);
             map.setCenter({lat: 38.655602, lng: -90.301732});
-
 
             new google.maps.Marker({
               map: map,
