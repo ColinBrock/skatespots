@@ -13,8 +13,12 @@
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
+
         var locations = /*[[${locations}]]*/
         var location = /*[[${location}]]*/
+        var radius = /*[[${radius}]]*/
+
+        var x = new google.maps.LatLng(location[0], location[1]);
 
 
         for (var i=0; i < locations.length; i++){
@@ -22,11 +26,15 @@
           if (status === 'OK') {
             map.setCenter({lat: 38.655602, lng: -90.301732});
 
-            new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location
-            });
+            var y = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
 
+            if (distance < radius){
+                new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location
+                });
+            }
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
                 status);

@@ -36,7 +36,7 @@ public class NearMeController {
 
 
     @RequestMapping(value = "nearme", method = RequestMethod.POST)
-    public String processNearMe(Model model, String type, String hidden) {
+    public String processNearMe(Model model, String type, String hidden, int radius) {
 
         ArrayList<String> locations = new ArrayList<>();
 
@@ -57,6 +57,7 @@ public class NearMeController {
                 String address = spots.next().getAddress();
                 locations.add(address);
             }
+            model.addAttribute("radius", radius);
             model.addAttribute("location", location);
             model.addAttribute("locations", locations);
             return "allspots/All-Spots";
@@ -69,6 +70,7 @@ public class NearMeController {
                 locations.add(address);
             }
 
+            model.addAttribute("radius", radius);
             model.addAttribute("location", location);
             model.addAttribute("locations", locations);
             return "allspots/All-Spots";
@@ -86,6 +88,7 @@ public class NearMeController {
                 locations.add(address);
             }
 
+            model.addAttribute("radius", radius);
             model.addAttribute("location", location);
             model.addAttribute("locations", locations);
             return "allspots/All-Spots";
