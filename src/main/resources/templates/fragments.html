@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -16,8 +16,11 @@
             <li><a href="/parklist">Parks</a></li>
             <li><a href="/addspot">Add Spots</a></li>
             <li><a href="/addpark">Add Parks</a></li>
-            <li><a href="/signup">Signup</a></li>
             <li><a href="/nearme">Near Me</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Sign Out</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/signup">Sign Up</a></li>
+
+
         </ul>
     </div>
 </nav>
