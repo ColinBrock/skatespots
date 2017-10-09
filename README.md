@@ -7,8 +7,8 @@ This is a web application with the goal of helping people in the St. Louis area 
   - Add a skate spot / park
   - Uploading of image of spot / park
   - Plots address on google maps to give idea of location
+  - Comment section for each spot / park
 
 ## Upcoming Features
   - Spots near me
-  - Comment section for each spot / park
-  
+
