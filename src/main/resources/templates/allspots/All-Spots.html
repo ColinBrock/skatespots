@@ -10,19 +10,26 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+      var locations = /*[[${locations}]]*/
+      var jsonlocations = [];
+
+      for (var i=0; i < locations.length; i++){
+        var x = $.parseJSON(locations[i]);
+        jsonlocations.push(x);
+      }
+
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
 
-        var locations = /*[[${locations}]]*/
         var location = /*[[${location}]]*/
         var radius = /*[[${radius}]]*/
 
         var x = new google.maps.LatLng(location[0], location[1]);
 
 
-        for (var i=0; i < locations.length; i++){
-        geocoder.geocode({'address': locations[i]}, function(results, status) {
+        for (var i=0; i < jsonlocations.length; i++){
+        geocoder.geocode({'address': jsonlocations[i].address}, function(results, status) {
           if (status === 'OK') {
             map.setCenter({lat: 38.655602, lng: -90.301732});
 

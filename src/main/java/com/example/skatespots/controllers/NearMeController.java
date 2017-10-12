@@ -3,6 +3,7 @@ package com.example.skatespots.controllers;
 import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,18 +49,24 @@ public class NearMeController {
         float[] location = new float[2];
         location = new float[]{latt, lonn};
 
-
+        ArrayList<String> spotz = new ArrayList<>();
+        Gson gson = new Gson();
 
         if (type.equals("spot")) {
 
             Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
             while (spots.hasNext()) {
-                String address = spots.next().getAddress();
-                locations.add(address);
+                //String address = spots.next().getAddress();
+                //locations.add(address);
+                SkateSpot x = spots.next();
+                SkateSpot y = new SkateSpot(x.getName(), x.getDescription(), x.getAddress());
+                String z = gson.toJson(y);
+                spotz.add(z);
             }
+
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
-            model.addAttribute("locations", locations);
+            model.addAttribute("locations", spotz);
             return "allspots/All-Spots";
 
         } else if (type.equals("park")) {
