@@ -9,12 +9,12 @@
 <div>
     <form method="POST" style="max-width:400px;">
         <div class="form-group">
-            <label>Address</label>
-            <input class="form-control" type="text" value="" id="location" name="location"/>
+            <h1>Where are you?</h1>
             <input type="hidden" value="" id="hidden" name="hidden"/>
-            <h5> Or </h5>
+            <h5>This feature requires knowing your current location. If you are ok with this please press the
+                button.</h5>
             <button type="button" id="currentlocation">Use current location</button>
-            <span> (May take a few seconds)</span>
+            <span id="completed"> (May take a few seconds)</span>
         </div>
         <div class="form-group">
             <label>Search For</label>
@@ -51,7 +51,7 @@
   var geoSuccess = function(position) {
     startPos = position;
     var lonlat = startPos.coords.latitude.toString() + ', ' + startPos.coords.longitude.toString();
-    document.getElementById('location').setAttribute("value", "Current Location");
+    document.getElementById('completed').innerHTML = " Completed";
     document.getElementById('hidden').setAttribute("value", lonlat);
 
   };
