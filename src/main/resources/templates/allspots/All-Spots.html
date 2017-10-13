@@ -37,18 +37,36 @@
             var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
 
             if (distance < radius){
-                new google.maps.Marker({
+                var marker = new google.maps.Marker({
                   map: map,
                   position: results[0].geometry.location
                 });
+
+
+                var content = "Loan Number: ";
+
+                var infowindow = new google.maps.InfoWindow();
+
+                google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){
+                        return function() {
+                           infowindow.setContent(content);
+                           infowindow.open(map,marker);
+                        };
+                    })(marker,content,infowindow));
+
             }
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
                 status);
           }
         });
+
+
         }
       }
+
+
+
     /*]]>*/
 </script>
 
