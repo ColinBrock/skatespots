@@ -9,63 +9,67 @@
 
 
 <script th:inline="javascript">
+
     /*<![CDATA[*/
       var locations = /*[[${locations}]]*/
       var jsonlocations = [];
+      var html;
 
       for (var i=0; i < locations.length; i++){
         var x = $.parseJSON(locations[i]);
         jsonlocations.push(x);
       }
 
+        function bindInfoWindow(marker, map, infowindow, html) {
+            marker.addListener('click', function() {
+                infowindow.setContent(html);
+                infowindow.open(map, this);
+            });
+        }
+
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
+        map.setCenter({lat: 38.655602, lng: -90.301732});
+
 
         var location = /*[[${location}]]*/
         var radius = /*[[${radius}]]*/
 
         var x = new google.maps.LatLng(location[0], location[1]);
+        var infowindow = new google.maps.InfoWindow();
 
 
         for (var i=0; i < jsonlocations.length; i++){
+
+        html = "<h5>" + jsonlocations[i].name + "</h5></br>" + jsonlocations[i].description;
+
         geocoder.geocode({'address': jsonlocations[i].address}, function(results, status) {
           if (status === 'OK') {
-            map.setCenter({lat: 38.655602, lng: -90.301732});
 
-            var y = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
+             var y = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+             var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
 
-            if (distance < radius){
-                var marker = new google.maps.Marker({
-                  map: map,
-                  position: results[0].geometry.location
-                });
+                if (distance < radius){
+                    var marker = new google.maps.Marker({
+                      map: map,
+                      position: results[0].geometry.location
+                      });
 
+                    bindInfoWindow(marker, map, infowindow, html);
+                }
 
-                var content = "Loan Number: ";
-
-                var infowindow = new google.maps.InfoWindow();
-
-                google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){
-                        return function() {
-                           infowindow.setContent(content);
-                           infowindow.open(map,marker);
-                        };
-                    })(marker,content,infowindow));
-
-            }
           } else {
             window.alert('Geocode was not successful for the following reason: ' +
                 status);
           }
+
         });
 
 
         }
+
       }
-
-
 
     /*]]>*/
 </script>

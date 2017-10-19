@@ -49,55 +49,60 @@ public class NearMeController {
         float[] location = new float[2];
         location = new float[]{latt, lonn};
 
-        ArrayList<String> spotz = new ArrayList<>();
+        ArrayList<String> stringSpots = new ArrayList<>();
         Gson gson = new Gson();
 
         if (type.equals("spot")) {
 
             Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
             while (spots.hasNext()) {
-                //String address = spots.next().getAddress();
-                //locations.add(address);
+
                 SkateSpot x = spots.next();
                 SkateSpot y = new SkateSpot(x.getName(), x.getDescription(), x.getAddress());
                 String z = gson.toJson(y);
-                spotz.add(z);
+                stringSpots.add(z);
             }
 
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
-            model.addAttribute("locations", spotz);
+            model.addAttribute("locations", stringSpots);
             return "allspots/All-Spots";
 
         } else if (type.equals("park")) {
 
             Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
             while (parks.hasNext()) {
-                String address = parks.next().getAddress();
-                locations.add(address);
+                SkatePark x = parks.next();
+                SkatePark y = new SkatePark(x.getName(), x.getDescription(), x.getAddress());
+                String z = gson.toJson(y);
+                stringSpots.add(z);
             }
 
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
-            model.addAttribute("locations", locations);
+            model.addAttribute("locations", stringSpots);
             return "allspots/All-Spots";
 
         } else {
 
             Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
             while (spots.hasNext()) {
-                String address = spots.next().getAddress();
-                locations.add(address);
+                SkateSpot x = spots.next();
+                SkateSpot y = new SkateSpot(x.getName(), x.getDescription(), x.getAddress());
+                String z = gson.toJson(y);
+                stringSpots.add(z);
             }
             Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
             while (parks.hasNext()) {
-                String address = parks.next().getAddress();
-                locations.add(address);
+                SkatePark x = parks.next();
+                SkatePark y = new SkatePark(x.getName(), x.getDescription(), x.getAddress());
+                String z = gson.toJson(y);
+                stringSpots.add(z);
             }
 
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
-            model.addAttribute("locations", locations);
+            model.addAttribute("locations", stringSpots);
             return "allspots/All-Spots";
         }
     }
