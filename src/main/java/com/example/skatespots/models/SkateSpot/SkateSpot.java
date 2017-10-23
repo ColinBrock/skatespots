@@ -7,6 +7,7 @@ import com.example.skatespots.models.users.userBasic;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.lang.reflect.Array;
 import java.util.List;
 
 /**
@@ -32,9 +33,7 @@ public class SkateSpot {
     @Size(min = 1, message = "Must have an address.")
     private String address;
 
-
     private String security;
-
 
     private String imgpath;
 
@@ -47,15 +46,18 @@ public class SkateSpot {
     @OneToMany(mappedBy = "spot")
     private List<Comment> comments;
 
+    private Double lat;
+    private Double lng;
 
     public SkateSpot() {}
 
-    public SkateSpot(String name, String description, String address) {
+    public SkateSpot(String name, String description, String address, Double lat, Double lng) {
         this.name = name;
         this.description = description;
         this.address = address;
+        this.lat = lat;
+        this.lng = lng;
     }
-
 
     public String getName() {
         return name;
@@ -126,6 +128,22 @@ public class SkateSpot {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 }
 
