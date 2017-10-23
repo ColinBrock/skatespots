@@ -7,7 +7,7 @@
 <div th:replace="fragments :: navigation"></div>
 
 <div>
-    <form method="POST" style="max-width:400px;">
+    <form method="POST" style="max-width:400px;" id="form">
         <div class="form-group">
             <h1>Where are you?</h1>
             <input type="hidden" value="" id="hidden" name="hidden"/>
@@ -33,10 +33,8 @@
                 <option value="48280">30 Miles</option>
             </select>
         </div>
-        <div class="form-group">
-            <input class="form-control" type="submit"/>
+        <div class="form-group" id="submit">
         </div>
-
     </form>
 </div>
 
@@ -53,6 +51,9 @@
     var lonlat = startPos.coords.latitude.toString() + ', ' + startPos.coords.longitude.toString();
     document.getElementById('completed').innerHTML = " Completed";
     document.getElementById('hidden').setAttribute("value", lonlat);
+
+    var submit = '<input class="form-control" type="submit"/>'
+    $( "#submit" ).append(submit);
 
   };
 
