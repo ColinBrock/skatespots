@@ -4,7 +4,6 @@ import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
@@ -51,12 +50,12 @@ public class NearMeController {
         String lon = locs[1];
         float latt = Float.parseFloat(lat);
         float lonn = Float.parseFloat(lon);
-        float[] location = new float[2];
-        location = new float[]{latt, lonn};
+        float[] location = new float[]{latt, lonn};
 
         ArrayList<String> stringSpots = new ArrayList<>();
         Gson gson = new Gson();
 
+        //only have one instance of this class across entire app
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE")
                 .build();

@@ -116,6 +116,7 @@ public class SkateParkController {
             model.addAttribute("delete", "delete");
         }
 
+
         if (aPark.getComments() != null) {
             model.addAttribute("comments", aPark.getComments());
         }

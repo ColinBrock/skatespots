@@ -50,7 +50,7 @@
 </div>
 
 <div th:if="${aSpot.imgpath}">
-    <img class=".img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
+    <img class="img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
     <br/>
     <br/>
     <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn btn-default btn-md active" role="button">Remove
@@ -89,7 +89,8 @@
 <form method="post">
     <label for="comment">Add a comment</label>
     <br/>
-    <textarea row="6" cols="50" name="comment" id="comment"></textarea>
+    <textarea row="8" cols="50" name="comment" id="comment"></textarea>
+    <br/>
     <input type="submit"/>
 </form>
 

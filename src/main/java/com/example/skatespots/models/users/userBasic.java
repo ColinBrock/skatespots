@@ -23,7 +23,7 @@ public class userBasic {
     @Size(min=3,max=15, message = "Size must be between 3 and 15 Characters")
     private String username;
 
-    @Size(min = 3, max = 15, message = "Size must be between 3 and 15 Characters")
+    @Size(min = 3, message = "Size must at least 3 long")
     private String password;
 
 

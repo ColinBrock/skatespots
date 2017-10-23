@@ -5,10 +5,13 @@ import com.example.skatespots.models.users.userBasic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import sun.security.util.Password;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -72,6 +75,8 @@ public class UserController {
 
             if (userBasic.getPassword().equals(verify)) {
                 model.addAttribute("userBasic", userBasic);
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                userBasic.setPassword(encoder.encode(userBasic.getPassword()));
                 userDao.save(userBasic);
                 return "redirect:/";
             } else {
