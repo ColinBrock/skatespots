@@ -32,43 +32,28 @@
         var geocoder = new google.maps.Geocoder;
         map.setCenter({lat: 38.655602, lng: -90.301732});
 
-
         var location = /*[[${location}]]*/
         var radius = /*[[${radius}]]*/
 
         var x = new google.maps.LatLng(location[0], location[1]);
         var infowindow = new google.maps.InfoWindow();
 
-
         for (var i=0; i < jsonlocations.length; i++){
 
         html = "<h5>" + jsonlocations[i].name + "</h5></br>" + jsonlocations[i].description;
 
-        geocoder.geocode({'address': jsonlocations[i].address}, function(results, status) {
-          if (status === 'OK') {
-
-             var y = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+             var y = new google.maps.LatLng(jsonlocations[i].lat, jsonlocations[i].lng);
              var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
 
                 if (distance < radius){
                     var marker = new google.maps.Marker({
                       map: map,
-                      position: results[0].geometry.location
+                      position: y
                       });
 
                     bindInfoWindow(marker, map, infowindow, html);
                 }
-
-          } else {
-            window.alert('Geocode was not successful for the following reason: ' +
-                status);
-          }
-
-        });
-
-
         }
-
       }
 
     /*]]>*/

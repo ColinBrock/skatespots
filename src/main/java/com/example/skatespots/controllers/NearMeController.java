@@ -46,59 +46,6 @@ public class NearMeController {
     public String processNearMe(Model model, String type, String hidden, int radius) throws InterruptedException, ApiException, IOException {
 
 
-       /* if (type.equals("spot")) {
-            Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
-            while (spots.hasNext()) {
-
-                SkateSpot x = spots.next();
-                SkateSpot y = new SkateSpot(x.getName(), x.getDescription(), x.getAddress());
-                String z = gson.toJson(y);
-                stringSpots.add(z);
-            }
-
-            model.addAttribute("radius", radius);
-            model.addAttribute("location", location);
-            model.addAttribute("locations", stringSpots);
-            return "allspots/All-Spots";
-
-        } else if (type.equals("park")) {
-
-            Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
-            while (parks.hasNext()) {
-                SkatePark x = parks.next();
-                SkatePark y = new SkatePark(x.getName(), x.getDescription(), x.getAddress());
-                String z = gson.toJson(y);
-                stringSpots.add(z);
-            }
-
-            model.addAttribute("radius", radius);
-            model.addAttribute("location", location);
-            model.addAttribute("locations", stringSpots);
-            return "allspots/All-Spots";
-
-        } else {
-
-            Iterator<SkateSpot> spots = skateSpotDao.findAll().iterator();
-            while (spots.hasNext()) {
-                SkateSpot x = spots.next();
-                SkateSpot y = new SkateSpot(x.getName(), x.getDescription(), x.getAddress());
-                String z = gson.toJson(y);
-                stringSpots.add(z);
-            }
-            Iterator<SkatePark> parks = skateParkDao.findAll().iterator();
-            while (parks.hasNext()) {
-                SkatePark x = parks.next();
-                SkatePark y = new SkatePark(x.getName(), x.getDescription(), x.getAddress());
-                String z = gson.toJson(y);
-                stringSpots.add(z);
-            }
-
-            model.addAttribute("radius", radius);
-            model.addAttribute("location", location);
-            model.addAttribute("locations", stringSpots);
-            return "allspots/All-Spots";
-        }*/
-
         String[] locs = hidden.split(",");
         String lat = locs[0];
         String lon = locs[1];
