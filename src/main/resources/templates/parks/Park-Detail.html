@@ -85,12 +85,12 @@
 <form method="post">
     <label for="comment">Add a comment</label>
     <br/>
-    <textarea row="8" cols="50" name="comment" id="comment"></textarea>
+    <textarea row="14" cols="50" name="comment" id="comment"></textarea>
     <br/>
     <input type="submit"/>
 </form>
 
-<h4>Comments</h4>
+<h4 th:if="${comments}" th:text="Comments"></h4>
 <table th:if="${comments}" class="table">
     <tr th:each="comment : ${comments}">
         <td th:text="${comment.user.username}"></td>
