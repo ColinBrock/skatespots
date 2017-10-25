@@ -99,20 +99,20 @@
         <td>
             <form th:if="${comment.user.username == user}" method="post">
                 <input type="hidden" name="deletecom" th:value="${comment.id}"/>
-                <input type="submit" class="buttonhoverComment" value="delete"
-                       onclick="return confirm('Are you sure?')"/>
+                <input type="submit" class="buttonhoverComment" value="X"
+                       onclick="return confirm('Are you sure you want to remove your comment?')"/>
             </form>
         </td>
     </tr>
 </table>
 
 <br/>
+<span>
 <a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn buttonhover">Edit
     This Spot</a>
-<br/>
-<br/>
 <a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn buttonhover"
    onclick="return confirm('Are you sure?')">Delete This Spot</a>
+</span>
 <br/>
 <br/>
 </body>
