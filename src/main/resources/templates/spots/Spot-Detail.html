@@ -43,15 +43,14 @@
 
 <div th:unless="${aSpot.imgpath}">
     <br/>
-    <a th:href="@{'/upload/spot/' + ${aSpot.Id}}"
-       class="btn btn-default btn-md active" role="button">Add an Image</a>
+    <a th:href="@{'/upload/spot/' + ${aSpot.Id}}" class="btn buttonhover">Add an Image</a>
 </div>
 
 <div th:if="${aSpot.imgpath}">
     <img class="img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
     <br/>
     <br/>
-    <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn btn-default btn-md active" role="button">Remove
+    <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn buttonhover">Remove
         your image</a>
 </div>
 <br/>
@@ -89,7 +88,7 @@
     <br/>
     <textarea row="14" cols="50" name="comment" id="comment"></textarea>
     <br/>
-    <input type="submit"/>
+    <input class="btn buttonhover" type="submit"/>
 </form>
 
 <h4 th:if="${comments}" th:text="Comments"></h4>
@@ -100,19 +99,20 @@
         <td>
             <form th:if="${comment.user.username == user}" method="post">
                 <input type="hidden" name="deletecom" th:value="${comment.id}"/>
-                <input type="submit" value="delete" onclick="return confirm('Are you sure?')"/>
+                <input type="submit" class="buttonhoverComment" value="delete"
+                       onclick="return confirm('Are you sure?')"/>
             </form>
         </td>
     </tr>
 </table>
 
 <br/>
-<a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn btn-default btn-md active" role="button">Edit
+<a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn buttonhover">Edit
     This Spot</a>
 <br/>
 <br/>
-<a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn btn-default btn-md active"
-   role="button" onclick="return confirm('Are you sure?')">Delete This Spot</a>
+<a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn buttonhover"
+   onclick="return confirm('Are you sure?')">Delete This Spot</a>
 <br/>
 <br/>
 </body>
