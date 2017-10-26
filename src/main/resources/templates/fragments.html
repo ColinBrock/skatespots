@@ -18,8 +18,8 @@
             <li><a href="/addspot">Add Spots</a></li>
             <li><a href="/addpark">Add Parks</a></li>
             <li><a href="/nearme">Near Me</a></li>
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Sign Out</a></li>
-            <li sec:authorize="isAnonymous()"><a href="/signup">Sign Up</a></li>
+            <li sec:authorize="isAuthenticated()" class="rightalign"><a th:href="@{/logout}">Sign Out</a></li>
+            <li sec:authorize="isAnonymous()" class="rightalign"><a href="/signup">Sign Up</a></li>
         </ul>
     </div>
 
