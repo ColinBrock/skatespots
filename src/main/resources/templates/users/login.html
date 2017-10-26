@@ -10,7 +10,9 @@
 </div>
 
 <div th:unless="${param.error}">
-    <h2> Sign In </h2>
+    <span>
+        <h2>Log in or <a href="/signup">Sign Up</a></h2>
+    </span>
 </div>
 
 <div th:if="${param.logout}">
@@ -34,7 +36,6 @@
 <br/>
 <br/>
 <div>
-    <h3><a href="/signup">Sign Up</a></h3>
 </div>
 
 
