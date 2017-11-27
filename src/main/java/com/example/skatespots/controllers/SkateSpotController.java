@@ -158,7 +158,7 @@ public class SkateSpotController {
         if (User == aSpot.getUserBasic()) {
                 model.addAttribute("delete", "delete");
             }
-        if (User.getUsername().equals("chris")) {
+        if (User.getUsername().equals("admin")) {
             model.addAttribute("delete", "delete");
         }
 

@@ -115,7 +115,7 @@ public class SkateParkController {
         if (User == aPark.getUserBasic()) {
             model.addAttribute("delete", "delete");
         }
-        if (User.getUsername().equals("chris")) {
+        if (User.getUsername().equals("admin")) {
             model.addAttribute("delete", "delete");
         }
 
