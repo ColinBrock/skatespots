@@ -2,6 +2,7 @@ package com.example.skatespots;
 
 import com.example.skatespots.storage.StorageProperties;
 import com.example.skatespots.storage.StorageService;
+import com.google.maps.GeoApiContext;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +18,8 @@ public class SkatespotsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SkatespotsApplication.class, args);
 	}
-	@Bean
+
+    @Bean
 	CommandLineRunner init(StorageService storageService) {
 		return (args) -> {
 			storageService.init();

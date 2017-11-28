@@ -1,5 +1,6 @@
 package com.example.skatespots.controllers;
 
+import com.example.skatespots.GeoApiContextSingleton;
 import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
@@ -21,7 +22,7 @@ import java.util.Iterator;
 
 @Controller
 @RequestMapping("")
-public class NearMeController {
+public class AllSpotsController {
 
     @Autowired
     private SkateSpotDao skateSpotDao;
@@ -55,10 +56,8 @@ public class NearMeController {
         ArrayList<String> stringSpots = new ArrayList<>();
         Gson gson = new Gson();
 
-        //only have one instance of this class across entire app
-        GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey("AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE")
-                .build();
+        GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
+
 
 
         if (type.equals("spot")) {
@@ -67,7 +66,7 @@ public class NearMeController {
             while (spots.hasNext()) {
                 SkateSpot spot = spots.next();
                 if (spot.getLat() == null) {
-                    GeocodingResult[] results = GeocodingApi.geocode(context, spot.getAddress()).await();
+                    GeocodingResult[] results = GeocodingApi.geocode(context.context, spot.getAddress()).await();
                     spot.setLat(results[0].geometry.location.lat);
                     spot.setLng(results[0].geometry.location.lng);
                     skateSpotDao.save(spot);
@@ -87,7 +86,7 @@ public class NearMeController {
             while (parks.hasNext()) {
                 SkatePark park = parks.next();
                 if (park.getLat() == null) {
-                    GeocodingResult[] results = GeocodingApi.geocode(context, park.getAddress()).await();
+                    GeocodingResult[] results = GeocodingApi.geocode(context.context, park.getAddress()).await();
                     park.setLat(results[0].geometry.location.lat);
                     park.setLng(results[0].geometry.location.lng);
                     skateParkDao.save(park);
@@ -106,7 +105,7 @@ public class NearMeController {
             while (spots.hasNext()) {
                 SkateSpot spot = spots.next();
                 if (spot.getLat() == null) {
-                    GeocodingResult[] results = GeocodingApi.geocode(context, spot.getAddress()).await();
+                    GeocodingResult[] results = GeocodingApi.geocode(context.context, spot.getAddress()).await();
                     spot.setLat(results[0].geometry.location.lat);
                     spot.setLng(results[0].geometry.location.lng);
                     skateSpotDao.save(spot);
@@ -119,7 +118,7 @@ public class NearMeController {
             while (parks.hasNext()) {
                 SkatePark park = parks.next();
                 if (park.getLat() == null) {
-                    GeocodingResult[] results = GeocodingApi.geocode(context, park.getAddress()).await();
+                    GeocodingResult[] results = GeocodingApi.geocode(context.context, park.getAddress()).await();
                     park.setLat(results[0].geometry.location.lat);
                     park.setLng(results[0].geometry.location.lng);
                     skateParkDao.save(park);

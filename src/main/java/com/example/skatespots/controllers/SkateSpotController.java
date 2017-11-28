@@ -1,11 +1,15 @@
 package com.example.skatespots.controllers;
 
+import com.example.skatespots.GeoApiContextSingleton;
 import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.Authentication;
@@ -16,6 +20,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +59,22 @@ public class SkateSpotController {
 
     @RequestMapping(value = "addspot", method = RequestMethod.POST)
     public String processAddSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors,
-                                     @RequestParam(required = false) int[] spotTypes, Model model) {
+                                     @RequestParam(required = false) int[] spotTypes, Model model) throws InterruptedException, ApiException, IOException {
+
+
+        GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
+        GeocodingResult[] results = GeocodingApi.geocode(context.context, newSpot.getAddress()).await();
+
+        System.out.println(results[0].addressComponents);
+        System.out.println(results[0].geometry.location);
+        System.out.println(results[0].partialMatch);
+
+/*        if ( results[0].geometry.location.lat == null  ){
+
+            model.addAttribute(newSpot);
+            return "spots/Add-Spot";
+        }*/
+
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
