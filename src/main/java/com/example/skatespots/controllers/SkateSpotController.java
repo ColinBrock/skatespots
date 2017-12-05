@@ -43,6 +43,8 @@ public class SkateSpotController {
     @Autowired
     private CommentDao commentDao;
 
+    GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
+
 
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
@@ -62,19 +64,7 @@ public class SkateSpotController {
                                      @RequestParam(required = false) int[] spotTypes, Model model) throws InterruptedException, ApiException, IOException {
 
 
-        GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
         GeocodingResult[] results = GeocodingApi.geocode(context.context, newSpot.getAddress()).await();
-
-        System.out.println(results[0].addressComponents);
-        System.out.println(results[0].geometry.location);
-        System.out.println(results[0].partialMatch);
-
-/*        if ( results[0].geometry.location.lat == null  ){
-
-            model.addAttribute(newSpot);
-            return "spots/Add-Spot";
-        }*/
-
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
