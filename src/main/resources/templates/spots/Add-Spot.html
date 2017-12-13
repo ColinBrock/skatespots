@@ -27,6 +27,7 @@
         <div class="form-group">
             <label th:for="address">Address</label>
             <input class="form-control" th:field="*{address}" id="address"/>
+            <span th:if="${outOfRange}" th:text="${outOfRange}" style="font-size: 18px;color:red;"></span>
             <span th:errors="*{address}" style="font-size: 18px;color:red;"></span>
         </div>
         <div class="form-group">
@@ -47,36 +48,12 @@
         <input type="submit" id="submit" class="btn buttonhover" value="Add Spot"/>
     </form>
 
-
     <script th:inline="javascript">
-  document.getElementById('submit').onclick = function() {
 
-  var address = $("#address").val();
-  var center = new google.maps.LatLng(38.631238, -90.344870);
-  var geocoder = new google.maps.Geocoder;
-  var cords;
-  var distance;
-  
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {
-
-
-                 cords = new google.maps.LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng);
-
-                 distance = google.maps.geometry.spherical.computeDistanceBetween(cords, center);
-
-            };
-
-        });
-                console.log(center);
-                console.log(distance);
-  console.log(address);
-  }
 
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHu2rc07DmlSD9dUSQAoevnexR8DWXTgE&amp;libraries=geometry">
-    </script>
+
 
 </body>
 </html>

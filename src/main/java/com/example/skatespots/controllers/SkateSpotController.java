@@ -7,9 +7,12 @@ import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
+import com.google.maps.DirectionsApi;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.Authentication;
@@ -65,6 +68,21 @@ public class SkateSpotController {
 
 
         GeocodingResult[] results = GeocodingApi.geocode(context.context, newSpot.getAddress()).await();
+        String[] center = {"38.631238, -90.344870"};
+        String[] cords = {results[0].geometry.location.toString()};
+
+        DistanceMatrixApiRequest distance = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
+        DistanceMatrix trix = distance.origins(center)
+                .destinations(cords)
+                .mode(TravelMode.DRIVING)
+                .await();
+        long i = trix.rows[0].elements[0].distance.inMeters;
+
+        if (i > 48280) {
+            model.addAttribute(newSpot);
+            model.addAttribute("outOfRange", "This is address is not within range");
+            return "spots/Add-Spot";
+        }
 
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
@@ -103,8 +121,24 @@ public class SkateSpotController {
 
     @RequestMapping(value = "edit/spot/{spotId}", method = RequestMethod.POST)
     public String processEditSpotForm(@ModelAttribute @Valid SkateSpot newSpot, Errors errors, @PathVariable int spotId,
-                                      @RequestParam(required = false) int[] spotTypes, Model model) {
+                                      @RequestParam(required = false) int[] spotTypes, Model model) throws InterruptedException, ApiException, IOException {
 
+        GeocodingResult[] results = GeocodingApi.geocode(context.context, newSpot.getAddress()).await();
+        String[] center = {"38.631238, -90.344870"};
+        String[] cords = {results[0].geometry.location.toString()};
+
+        DistanceMatrixApiRequest distance = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
+        DistanceMatrix trix = distance.origins(center)
+                .destinations(cords)
+                .mode(TravelMode.DRIVING)
+                .await();
+        long i = trix.rows[0].elements[0].distance.inMeters;
+
+        if (i > 48280) {
+            model.addAttribute(newSpot);
+            model.addAttribute("outOfRange", "This is address is not within range");
+            return "spots/Add-Spot";
+        }
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }

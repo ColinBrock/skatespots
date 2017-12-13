@@ -41,19 +41,19 @@
 
         for (var i=0; i < jsonlocations.length; i++){
 
-        html = "<h5>" + jsonlocations[i].name + "</h5></br>" + jsonlocations[i].description;
+            html = "<h5>" + jsonlocations[i].name + "</h5></br>" + jsonlocations[i].description;
 
-             var y = new google.maps.LatLng(jsonlocations[i].lat, jsonlocations[i].lng);
-             var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
+                 var y = new google.maps.LatLng(jsonlocations[i].lat, jsonlocations[i].lng);
+                 var distance = google.maps.geometry.spherical.computeDistanceBetween(x,y);
 
-                if (distance < radius){
-                    var marker = new google.maps.Marker({
-                      map: map,
-                      position: y
-                      });
+                    if (distance < radius){
+                        var marker = new google.maps.Marker({
+                          map: map,
+                          position: y
+                          });
 
-                    bindInfoWindow(marker, map, infowindow, html);
-                }
+                        bindInfoWindow(marker, map, infowindow, html);
+                    }
         }
       }
 
