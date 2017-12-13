@@ -108,8 +108,8 @@
 <span>
 <a th:if="${delete}" th:href="@{'/edit/park/' + ${parkId}}" class="btn buttonhover">Edit
     This Park</a>
-<a th:if="${delete}" th:href="@{'/remove/park/' + ${aPark.Id}}" class="btn buttonhover">Remove
-        your image</a>
+<span th:if="${aPark.imgpath}"><a th:if="${delete}" th:href="@{'/remove/park/' + ${aPark.Id}}" class="btn buttonhover">Remove
+        your image</a></span>
 <a th:if="${delete}" th:href="@{'/delete/park/' + ${parkId}}" class="btn buttonhover"
    onclick="return confirm('Are you sure?')">Delete This Park</a>
 </span>

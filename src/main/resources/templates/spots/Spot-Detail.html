@@ -109,8 +109,10 @@
 <span>
 <a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn buttonhover">Edit
     This Spot</a>
-<a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn buttonhover">Remove
+    <span th:if="${aSpot.imgpath}">
+        <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn buttonhover">Remove
         your image</a>
+    </span>
 <a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn buttonhover"
    onclick="return confirm('Are you sure?')">Delete This Spot</a>
 </span>
