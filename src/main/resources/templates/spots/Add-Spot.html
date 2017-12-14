@@ -13,7 +13,6 @@
     </span>
 
     <form method="post" style="max-width:500px;" th:object="${skateSpot}">
-
         <div class="form-group">
             <label th:for="name">Name</label>
             <input class="form-control" th:field="*{name}" />
@@ -47,13 +46,6 @@
         </div>
         <input type="submit" id="submit" class="btn buttonhover" value="Add Spot"/>
     </form>
-
-    <script th:inline="javascript">
-
-
-
-    </script>
-
 
 </body>
 </html>

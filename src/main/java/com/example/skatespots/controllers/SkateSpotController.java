@@ -2,19 +2,16 @@ package com.example.skatespots.controllers;
 
 import com.example.skatespots.GeoApiContextSingleton;
 import com.example.skatespots.models.Dao.*;
-import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.SpotType.SpotType;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
-import com.google.maps.DirectionsApi;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,13 +21,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by chris on 5/23/17.
  */
+
 @Controller
 @RequestMapping("")
 public class SkateSpotController {
@@ -71,12 +67,12 @@ public class SkateSpotController {
         String[] center = {"38.631238, -90.344870"};
         String[] cords = {results[0].geometry.location.toString()};
 
-        DistanceMatrixApiRequest distance = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
-        DistanceMatrix trix = distance.origins(center)
+        DistanceMatrixApiRequest distanceRequest = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
+        DistanceMatrix distance = distanceRequest.origins(center)
                 .destinations(cords)
                 .mode(TravelMode.DRIVING)
                 .await();
-        long i = trix.rows[0].elements[0].distance.inMeters;
+        long i = distance.rows[0].elements[0].distance.inMeters;
 
         if (i > 48280) {
             model.addAttribute(newSpot);
@@ -127,12 +123,12 @@ public class SkateSpotController {
         String[] center = {"38.631238, -90.344870"};
         String[] cords = {results[0].geometry.location.toString()};
 
-        DistanceMatrixApiRequest distance = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
-        DistanceMatrix trix = distance.origins(center)
+        DistanceMatrixApiRequest distanceRequest = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
+        DistanceMatrix distance = distanceRequest.origins(center)
                 .destinations(cords)
                 .mode(TravelMode.DRIVING)
                 .await();
-        long i = trix.rows[0].elements[0].distance.inMeters;
+        long i = distance.rows[0].elements[0].distance.inMeters;
 
         if (i > 48280) {
             model.addAttribute(newSpot);
@@ -206,7 +202,7 @@ public class SkateSpotController {
             model.addAttribute("delete", "delete");
         }
 
-        if (aSpot.getComments() != null) {
+        if (!aSpot.getComments().isEmpty()) {
             model.addAttribute("comments", aSpot.getComments());
         }
 
@@ -234,7 +230,6 @@ public class SkateSpotController {
 
             List<Comment> coms = aSpot.getComments();
             coms.add(com);
-
         }
 
         if (deletecom != null) {

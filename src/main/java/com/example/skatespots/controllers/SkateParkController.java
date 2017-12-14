@@ -1,10 +1,18 @@
 package com.example.skatespots.controllers;
 
+import com.example.skatespots.GeoApiContextSingleton;
 import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
 import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.DistanceMatrixApiRequest;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.TravelMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +22,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -31,6 +40,8 @@ public class SkateParkController {
     @Autowired
     private CommentDao commentDao;
 
+    GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
+
     @RequestMapping(value = "parklist", method = RequestMethod.GET)
     public String parksLists(Model model) {
         model.addAttribute("parks", skateParkDao.findAll());
@@ -44,7 +55,24 @@ public class SkateParkController {
     }
 
     @RequestMapping(value = "addpark", method = RequestMethod.POST)
-    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, Model model) {
+    public String processAddParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, Model model) throws InterruptedException, ApiException, IOException {
+
+        GeocodingResult[] results = GeocodingApi.geocode(context.context, newPark.getAddress()).await();
+        String[] center = {"38.631238, -90.344870"};
+        String[] cords = {results[0].geometry.location.toString()};
+
+        DistanceMatrixApiRequest distanceRequest = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
+        DistanceMatrix distance = distanceRequest.origins(center)
+                .destinations(cords)
+                .mode(TravelMode.DRIVING)
+                .await();
+        long i = distance.rows[0].elements[0].distance.inMeters;
+
+        if (i > 48280) {
+            model.addAttribute(newPark);
+            model.addAttribute("outOfRange", "This is address is not within range");
+            return "spots/Add-Spot";
+        }
 
         if (errors.hasErrors()) {
             return "parks/Add-Park";
@@ -72,7 +100,25 @@ public class SkateParkController {
     }
 
     @RequestMapping(value = "edit/park/{parkId}", method = RequestMethod.POST)
-    public String processEditParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, @PathVariable int parkId) {
+    public String processEditParkForm(@ModelAttribute @Valid SkatePark newPark, Errors errors, Model model, @PathVariable int parkId) throws InterruptedException, ApiException, IOException {
+
+
+        GeocodingResult[] results = GeocodingApi.geocode(context.context, newPark.getAddress()).await();
+        String[] center = {"38.631238, -90.344870"};
+        String[] cords = {results[0].geometry.location.toString()};
+
+        DistanceMatrixApiRequest distanceRequest = DistanceMatrixApi.getDistanceMatrix(context.context, center, cords);
+        DistanceMatrix distance = distanceRequest.origins(center)
+                .destinations(cords)
+                .mode(TravelMode.DRIVING)
+                .await();
+        long i = distance.rows[0].elements[0].distance.inMeters;
+
+        if (i > 48280) {
+            model.addAttribute(newPark);
+            model.addAttribute("outOfRange", "This is address is not within range");
+            return "spots/Add-Spot";
+        }
 
         if (errors.hasErrors()) {
             return "parks/Add-Park";
@@ -120,7 +166,7 @@ public class SkateParkController {
         }
 
 
-        if (aPark.getComments() != null) {
+        if (!aPark.getComments().isEmpty()) {
             model.addAttribute("comments", aPark.getComments());
         }
 
