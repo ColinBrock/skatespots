@@ -3,7 +3,6 @@ package com.example.skatespots.controllers;
 import com.example.skatespots.GeoApiContextSingleton;
 import com.example.skatespots.models.Dao.*;
 import com.example.skatespots.models.SkateSpot.SkatePark;
-import com.example.skatespots.models.SkateSpot.SkateSpot;
 import com.example.skatespots.models.comment.Comment;
 import com.example.skatespots.models.users.userBasic;
 import com.google.maps.DistanceMatrixApi;
@@ -66,14 +65,12 @@ public class SkateParkController {
                 .destinations(cords)
                 .mode(TravelMode.DRIVING)
                 .await();
-        long i = distance.rows[0].elements[0].distance.inMeters;
 
-        if (i > 48280) {
+        if (distance.rows[0].elements[0].distance == null || distance.rows[0].elements[0].distance.inMeters > 48280) {
             model.addAttribute(newPark);
-            model.addAttribute("outOfRange", "This is address is not within range");
-            return "spots/Add-Spot";
+            model.addAttribute("outOfRange", "This is not a valid address");
+            return "parks/Add-Park";
         }
-
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }
@@ -112,14 +109,12 @@ public class SkateParkController {
                 .destinations(cords)
                 .mode(TravelMode.DRIVING)
                 .await();
-        long i = distance.rows[0].elements[0].distance.inMeters;
 
-        if (i > 48280) {
+        if (distance.rows[0].elements[0].distance == null || distance.rows[0].elements[0].distance.inMeters > 48280) {
             model.addAttribute(newPark);
-            model.addAttribute("outOfRange", "This is address is not within range");
-            return "spots/Add-Spot";
+            model.addAttribute("outOfRange", "This is not a valid address");
+            return "parks/Add-Park";
         }
-
         if (errors.hasErrors()) {
             return "parks/Add-Park";
         }

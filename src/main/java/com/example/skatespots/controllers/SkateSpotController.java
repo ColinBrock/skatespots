@@ -72,14 +72,12 @@ public class SkateSpotController {
                 .destinations(cords)
                 .mode(TravelMode.DRIVING)
                 .await();
-        long i = distance.rows[0].elements[0].distance.inMeters;
 
-        if (i > 48280) {
+        if (distance.rows[0].elements[0].distance == null || distance.rows[0].elements[0].distance.inMeters > 48280) {
             model.addAttribute(newSpot);
-            model.addAttribute("outOfRange", "This is address is not within range");
+            model.addAttribute("outOfRange", "This is not a valid address");
             return "spots/Add-Spot";
         }
-
         if (errors.hasErrors()) {
             return "spots/Add-Spot";
         }
@@ -128,11 +126,10 @@ public class SkateSpotController {
                 .destinations(cords)
                 .mode(TravelMode.DRIVING)
                 .await();
-        long i = distance.rows[0].elements[0].distance.inMeters;
 
-        if (i > 48280) {
+        if (distance.rows[0].elements[0].distance == null || distance.rows[0].elements[0].distance.inMeters > 48280) {
             model.addAttribute(newSpot);
-            model.addAttribute("outOfRange", "This is address is not within range");
+            model.addAttribute("outOfRange", "This is not a valid address");
             return "spots/Add-Spot";
         }
         if (errors.hasErrors()) {
