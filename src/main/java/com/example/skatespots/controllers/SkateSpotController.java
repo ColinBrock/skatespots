@@ -44,7 +44,6 @@ public class SkateSpotController {
 
     GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
 
-
     @RequestMapping(value = "spotlist", method = RequestMethod.GET)
     public String spotsLists(Model model) {
         model.addAttribute("spots", skateSpotDao.findAll());
@@ -160,7 +159,6 @@ public class SkateSpotController {
             for (Comment comment : comments) {
                 comment.setSpot(newSpot);
             }
-
             commentDao.save(comments);
             skateSpotDao.delete(spotId);
             return "redirect:/spotlist";
@@ -172,7 +170,6 @@ public class SkateSpotController {
         skateSpotDao.delete(spotId);
         return "redirect:/spotlist";
     }
-
 
     @RequestMapping(value = "spot/{spotId}", method = RequestMethod.GET)
     public String spotDetail(Model model, @PathVariable int spotId){
@@ -213,7 +210,6 @@ public class SkateSpotController {
     @RequestMapping(value = "spot/{spotId}", method = RequestMethod.POST)
     public String processSpotComment(Model model, @PathVariable int spotId, String comment, @RequestParam(required = false) Integer deletecom) {
 
-
         SkateSpot aSpot = skateSpotDao.findOne(spotId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -228,7 +224,6 @@ public class SkateSpotController {
             List<Comment> coms = aSpot.getComments();
             coms.add(com);
         }
-
         if (deletecom != null) {
             commentDao.delete(deletecom);
         }

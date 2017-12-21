@@ -6,7 +6,7 @@
 <body class="container">
     <div th:replace="fragments :: navigation"></div>
     <br/>
-    <h4>Click on Spot Name for more info</h4>
+    <h4 class="center">Click on Spot Name for more info</h4>
     <br/>
     <div th:replace="fragments :: sortbytypes"></div>
     <br/>
@@ -15,15 +15,10 @@
         <tr>
             <td>Name</td>
             <td>Description</td>
-            <td>Address</td>
-            <td>Spot Type(s)</td>
         </tr>
         <tr th:each="spot : ${spots}">
             <td><a th:href="@{'/spot/' + ${spot.id}}" th:text="${spot.name}"></a></td>
             <td th:text="${spot.description}"></td>
-            <td th:text="${spot.address}"></td>
-            <td th:each="type : ${spot.spotTypes}"
-                th:text="${type.name}"></td>
         </tr>
     </table>
 

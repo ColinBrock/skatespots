@@ -85,7 +85,6 @@ public class SkateParkController {
         parks.add(newPark);
         User.setParksSubmitted(parks);
         userDao.save(User);
-
         return "redirect:/parklist";
     }
 
@@ -134,7 +133,6 @@ public class SkateParkController {
             comment.setPark(newPark);
         }
         commentDao.save(comments);
-
         skateParkDao.delete(parkId);
         return "redirect:/parklist";
     }
@@ -180,7 +178,6 @@ public class SkateParkController {
         userBasic User = userDao.findByUsername(user);
 
         if (comment != null) {
-
             Comment com = new Comment(comment, User);
             com.setPark(aPark);
             commentDao.save(com);
@@ -188,11 +185,9 @@ public class SkateParkController {
             List<Comment> coms = aPark.getComments();
             coms.add(com);
         }
-
         if (deletecom != null) {
             commentDao.delete(deletecom);
         }
-
         return "redirect:{parkId}";
     }
 

@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Stl Skate Spots</title>
 </head>
 <body>
@@ -38,9 +39,11 @@
     </script>
 </nav>
 
-<div th:fragment="sortbytypes">
+<div th:fragment="sortbytypes" id="bytypes" class="center">
     Spots By Type:
-    <a href="/spotlist">All</a> |
+    <br/>
+    <a href="/spotlist" style="font-size:22px">All</a>
+    <br/>
     <a href="/spottype/1">Rails / Ledges</a> |
     <a href="/spottype/2">Stairs / Gaps</a> |
     <a href="/spottype/3">Manuals / Other</a>

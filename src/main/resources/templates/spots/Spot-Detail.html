@@ -41,18 +41,18 @@
     </tr>
 </table>
 
-<div th:unless="${aSpot.imgpath}">
+<div th:unless="${aSpot.imgpath}" class="center">
     <br/>
     <a th:href="@{'/upload/spot/' + ${aSpot.Id}}" class="btn buttonhover">Add an Image</a>
 </div>
 
 <div th:if="${aSpot.imgpath}">
-    <img class="img-responsive" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
+    <img class="img-responsive center" th:src="'http://localhost:8080/files/' + ${aSpot.imgpath}"/>
     <br/>
     <br/>
 </div>
 <br/>
-<div id="map" style="width:60%;height:300px;"></div>
+<div id="map" style="max-width:100%;height:300px;" class="center"></div>
 
     <script th:inline="javascript">
       function initMap() {
@@ -81,12 +81,14 @@
 
 <br/>
 <br/>
-<form method="post">
+<form method="post" class="center">
     <label for="comment">Add a comment</label>
     <br/>
-    <textarea row="14" cols="50" name="comment" id="comment"></textarea>
     <br/>
-    <input class="btn buttonhover" type="submit"/>
+    <textarea row="20" cols="50" name="comment" id="comment"></textarea>
+    <br/>
+    <br/>
+    <input class="btn buttonhover center" type="submit"/>
 </form>
 
 <h4 th:if="${comments}" th:text="Comments"></h4>
@@ -106,16 +108,20 @@
 <br/>
 <br/>
 <br/>
-<span>
-<a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn buttonhover">Edit
-    This Spot</a>
+<div class="center">
+    <span>
+        <a th:if="${delete}" th:href="@{'/edit/spot/' + ${spotId}}" class="btn buttonhover center">Edit
+        This Spot</a>
+    </span>
     <span th:if="${aSpot.imgpath}">
-        <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn buttonhover">Remove
+        <a th:if="${delete}" th:href="@{'/remove/spot/' + ${aSpot.Id}}" class="btn buttonhover center">Remove
         your image</a>
     </span>
-<a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn buttonhover"
-   onclick="return confirm('Are you sure?')">Delete This Spot</a>
-</span>
+    <span>
+        <a th:if="${delete}" th:href="@{'/delete/spot/' + ${spotId}}" class="btn buttonhover center"
+           onclick="return confirm('Are you sure?')">Delete This Spot</a>
+    </span>
+</div>
 <br/>
 <br/>
 </body>
