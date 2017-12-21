@@ -13,14 +13,14 @@
 <nav th:fragment="navigation" id="topnav" class="navbar navbar-default">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/spotlist">Spots</a></li>
-            <li><a href="/parklist">Parks</a></li>
-            <li><a href="/addspot">Add Spots</a></li>
-            <li><a href="/addpark">Add Parks</a></li>
-            <li><a href="/nearme">Near Me</a></li>
-            <li sec:authorize="isAuthenticated()" class="rightalign"><a th:href="@{/logout}">Sign Out</a></li>
-            <li sec:authorize="isAnonymous()" class="rightalign"><a href="/signup">Sign Up</a></li>
+            <li class="topbar"><a href="/">Home</a></li>
+            <li class="topbar"><a href="/spotlist">Spots</a></li>
+            <li class="topbar"><a href="/parklist">Parks</a></li>
+            <li class="botbar"><a href="/addspot">Add Spots</a></li>
+            <li class="botbar"><a href="/addpark">Add Parks</a></li>
+            <li class="botbar"><a href="/nearme">Near Me</a></li>
+            <li sec:authorize="isAuthenticated()" class="rightalign botbar"><a th:href="@{/logout}">Sign Out</a></li>
+            <li sec:authorize="isAnonymous()" class="rightalign botbar"><a href="/signup">Sign Up</a></li>
         </ul>
     </div>
 
@@ -35,21 +35,20 @@
             }
         });
     });
-
     </script>
 </nav>
 
 <div th:fragment="sortbytypes" id="bytypes" class="center">
     Spots By Type:
     <br/>
+    <br/>
     <a href="/spotlist" style="font-size:22px">All</a>
+    <br/>
     <br/>
     <a href="/spottype/1">Rails / Ledges</a> |
     <a href="/spottype/2">Stairs / Gaps</a> |
     <a href="/spottype/3">Manuals / Other</a>
 </div>
-
-
 
 </body>
 </html>
