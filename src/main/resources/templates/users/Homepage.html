@@ -4,25 +4,25 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 <div th:replace="fragments :: navigation"></div>
-
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 <br/>
-
-<div if="spots">
+<br/>
+<h1 th:inline="text" class="center">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<br/>
+<br/>
+<div if="spots" class="center">
     <h3>My Spots Uploaded</h3>
-    <ul>
-        <li th:each="spot : ${spots}"><a th:href="@{'spot/' + ${spot.id}}" th:text="${spot.name}"></a></li>
-    </ul>
-</div>
 
-<div if="parks">
-    <h3>My Parks Uploaded</h3>
-    <ul>
-        <li th:each="park : ${parks}"><a th:href="@{'park/' + ${park.id}}" th:text="${park.name}"></a></li>
-    </ul>
+    <li th:each="spot : ${spots}" class="center"><a th:href="@{'spot/' + ${spot.id}}" th:text="${spot.name}"></a></li>
 </div>
 <br/>
-<form th:action="@{/logout}" method="post">
+<div if="parks" class="center">
+    <h3>My Parks Uploaded</h3>
+
+    <li th:each="park : ${parks}"><a th:href="@{'park/' + ${park.id}}" th:text="${park.name}"></a></li>
+</div>
+<br/>
+<br/>
+<form th:action="@{/logout}" method="post" class="center">
     <input class="btn buttonhover" type="submit" value="Sign Out"/>
 </form>
 

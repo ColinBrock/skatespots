@@ -4,21 +4,24 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 <div th:replace="fragments :: navigation"></div>
-
-<div th:if="${param.error}">
-    <h2 class="error">Invalid username and password.</h2>
+<br/>
+<br/>
+<div th:if="${param.error}" class="center">
+    <h2 class="error" style="font-size:30px">Invalid username or password.</h2>
 </div>
 
-<div th:unless="${param.error}">
+<div th:unless="${param.error}" class="center">
     <h2>Log in or <a href="/signup">Sign Up</a></h2>
 </div>
 
-<div th:if="${param.logout}">
+<div th:if="${param.logout}" class="center">
+    <br/>
+    <br/>
     <h4 class="error">You have been logged out.</h4>
 </div>
 <br/>
-
-<form th:action="@{/login}" style="max-width:400px;" method="post">
+<br/>
+<form th:action="@{/login}" style="max-width:400px;" class="center" method="post">
     <div class="form-group">
         <label> User Name </label>
         <input class="form-control" name="username"/>
@@ -27,6 +30,8 @@
         <label> Password </label>
         <input class="form-control" type="password" name="password"/>
     </div>
+    <br/>
+    <br/>
     <div class="form-group">
         <input class="btn buttonhover" type="submit" value="Sign In"/>
     </div>

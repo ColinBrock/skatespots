@@ -7,14 +7,16 @@
 <div th:replace="fragments :: navigation"></div>
 
 <div>
-    <form method="POST" style="max-width:400px;" id="form">
+    <form method="POST" style="max-width:400px;" class="center" id="form">
         <div class="form-group">
+            <br/>
             <h1>Where are you?</h1>
             <input type="hidden" value="" id="hidden" name="hidden"/>
             <br/>
             <h5>This feature requires knowing your current location. If you are ok with this please press the
                 button.</h5>
             <button type="button" class="btn buttonhover" id="currentlocation">Use current location</button>
+            <br/>
             <span id="completed"> (May take a few seconds)</span>
         </div>
         <br/>

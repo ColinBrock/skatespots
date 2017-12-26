@@ -58,7 +58,21 @@ public class AllSpotsController {
 
         GeoApiContextSingleton context = GeoApiContextSingleton.getInstance();
 
-
+        int miles = 0;
+        switch (radius) {
+            case 8046:
+                miles = 5;
+                break;
+            case 16093:
+                miles = 10;
+                break;
+            case 32186:
+                miles = 20;
+                break;
+            case 48280:
+                miles = 30;
+                break;
+        }
 
         if (type.equals("spot")) {
 
@@ -75,6 +89,8 @@ public class AllSpotsController {
                 String z = gson.toJson(y);
                 stringSpots.add(z);
             }
+            model.addAttribute("miles", miles);
+            model.addAttribute("type", "Spots");
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
             model.addAttribute("locations", stringSpots);
@@ -95,6 +111,8 @@ public class AllSpotsController {
                 String z = gson.toJson(y);
                 stringSpots.add(z);
             }
+            model.addAttribute("miles", miles);
+            model.addAttribute("type", "Parks");
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
             model.addAttribute("locations", stringSpots);
@@ -127,6 +145,8 @@ public class AllSpotsController {
                 String z = gson.toJson(y);
                 stringSpots.add(z);
             }
+            model.addAttribute("miles", miles);
+            model.addAttribute("type", "Spots and Parks");
             model.addAttribute("radius", radius);
             model.addAttribute("location", location);
             model.addAttribute("locations", stringSpots);
