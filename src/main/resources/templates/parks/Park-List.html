@@ -4,33 +4,21 @@
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
-
 <div th:replace="fragments :: navigation"></div>
-
 <br/>
-<h4>Click on Park Name for more info</h4>
 <br/>
-<table class="table">
+<h4 class="center">Click on Park Name for more info</h4>
+<br/>
+<br/>
+<table class="table center">
     <tr>
         <td>Name</td>
         <td>Description</td>
-        <td>Address</td>
-        <td>Helmet</td>
-        <td>Cost</td>
-        <td>Lights</td>
-        <td>Indoors</td>
     </tr>
     <tr th:each="park : ${parks}">
         <td><a th:href="@{'/park/' + ${park.id}}" th:text="${park.name}"></a></td>
         <td th:text="${park.description}"></td>
-        <td th:text="${park.address}"></td>
-        <td th:text="${park.helmet}"></td>
-        <td th:text="${park.cost}"></td>
-        <td th:text="${park.lights}"></td>
-        <td th:text="${park.indoors}"></td>
     </tr>
 </table>
-
-
 </body>
 </html>

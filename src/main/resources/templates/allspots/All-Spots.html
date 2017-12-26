@@ -35,9 +35,11 @@
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
         var geocoder = new google.maps.Geocoder;
-        map.setCenter({lat: 38.655602, lng: -90.301732});
 
         var location = /*[[${location}]]*/
+        map.setCenter({lat: location[0], lng: location[1]});
+
+
         var radius = /*[[${radius}]]*/
 
         var x = new google.maps.LatLng(location[0], location[1]);
