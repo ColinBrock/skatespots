@@ -27,7 +27,6 @@ import java.util.List;
  * Created by chris on 5/23/17.
  */
 
-@Controller
 @RequestMapping("")
 public class SkateSpotController {
 

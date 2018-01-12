@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+
 @RequestMapping("")
 public class SkateParkController {
 

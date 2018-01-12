@@ -11,7 +11,8 @@
 <br/>
 <br/>
 <div id="map" style="max-width:100%;height:550px;" class="center"></div>
-
+<br/>
+<br/>
 
 <script th:inline="javascript">
 
@@ -38,7 +39,6 @@
 
         var location = /*[[${location}]]*/
         map.setCenter({lat: location[0], lng: location[1]});
-
 
         var radius = /*[[${radius}]]*/
 
